@@ -1,0 +1,136 @@
+@import "tailwindcss";
+
+/* ============================================================
+   IMAC — نظام الألوان مستخرج من اللوجو
+   بني/برونزي (I و C والقوس) + رمادي فحمي (MA والصورة الصناعية)
+   ============================================================ */
+@theme {
+  /* البني البرونزي — اللون الأساسي */
+  --color-brand-50: #faf6f2;
+  --color-brand-100: #f3e9df;
+  --color-brand-200: #e5d1bd;
+  --color-brand-300: #d1b193;
+  --color-brand-400: #b98d68;
+  --color-brand-500: #a3714b;
+  --color-brand-600: #8a5c3c;
+  --color-brand-700: #6e4b33;
+  --color-brand-800: #573c2b;
+  --color-brand-900: #423025;
+  --color-brand-950: #251a13;
+
+  /* الرمادي الفحمي — اللون الثانوي */
+  --color-steel-50: #f7f7f6;
+  --color-steel-100: #ececea;
+  --color-steel-200: #d8d8d4;
+  --color-steel-300: #b8b8b2;
+  --color-steel-400: #91918a;
+  --color-steel-500: #74746d;
+  --color-steel-600: #5c5c56;
+  --color-steel-700: #4a4a45;
+  --color-steel-800: #33332f;
+  --color-steel-900: #232320;
+  --color-steel-950: #161614;
+
+  /* خلفيات دافئة */
+  --color-sand-50: #fdfbf9;
+  --color-sand-100: #faf7f3;
+  --color-sand-200: #f4efe8;
+
+  --font-sans: var(--font-cairo), "Segoe UI", system-ui, sans-serif;
+
+  --animate-fade-up: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-slow-zoom: slow-zoom 22s ease-in-out infinite alternate;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(50%); }
+}
+@keyframes slow-zoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.09); }
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #2e2823;
+  color-scheme: light;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-brand-700);
+  color: #fff;
+}
+
+/* شريط التمرير */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--color-sand-100); }
+::-webkit-scrollbar-thumb {
+  background: var(--color-brand-300);
+  border-radius: 9999px;
+  border: 2px solid var(--color-sand-100);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--color-brand-500); }
+
+@layer components {
+  /* عناوين الأقسام: خط صغير برونزي فوق العنوان */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-bold tracking-[0.25em] text-brand-600 uppercase;
+  }
+  .eyebrow::before {
+    content: "";
+    @apply block h-px w-8 bg-brand-500;
+  }
+
+  .btn,
+  .btn-primary,
+  .btn-outline,
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-sm px-7 py-3.5 text-sm font-bold tracking-wide transition-all duration-300;
+  }
+  .btn-primary {
+    @apply bg-brand-700 text-white hover:bg-brand-800 hover:shadow-lg hover:shadow-brand-900/20;
+  }
+  .btn-outline {
+    @apply border border-white/70 text-white hover:border-white hover:bg-white hover:text-steel-900;
+  }
+  .btn-ghost {
+    @apply border border-brand-700/30 text-brand-800 hover:border-brand-700 hover:bg-brand-700 hover:text-white;
+  }
+
+  /* خط فاصل مزخرف */
+  .rule-brand {
+    @apply h-0.5 w-14 rounded-full bg-linear-to-l from-brand-700 to-brand-300;
+  }
+}
+
+/* احترام تفضيل تقليل الحركة */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
