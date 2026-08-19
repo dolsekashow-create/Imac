@@ -39,6 +39,29 @@ export type ProductCategory = {
 /** اسم الفئة حسب اللغة */
 export const productName = (p: ProductCategory, l: Locale) => (l === 'ar' ? p.nameAr : p.name)
 
+/**
+ * الفئات اللي ليها صورة حقيقية مستخرجة من البروشور
+ * (الكيماويات مالهاش صورة في البروشور — بتستخدم الأيقونة)
+ */
+const WITH_IMAGE = new Set([
+  'mass-transfer',
+  'pipes-and-fittings',
+  'flanges',
+  'tubes',
+  'valves',
+  'steam-traps',
+  'rupture-discs',
+  'steel-products',
+  'sealing-products',
+  'hoses',
+  'instrumentation',
+  'heat-tracing',
+])
+
+/** مسار صورة الفئة، أو null لو مفيش صورة */
+export const productImage = (p: ProductCategory) =>
+  WITH_IMAGE.has(p.slug) ? `/images/products/${p.slug}.jpg` : null
+
 export const PRODUCTS: ProductCategory[] = [
   {
     slug: 'mass-transfer',

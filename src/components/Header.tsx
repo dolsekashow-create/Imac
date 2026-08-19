@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react'
 import { NAV, PHONES, EMAIL, WHATSAPP, waMsg } from '@/lib/site'
 import { PRODUCTS, productName } from '@/data/products'
 import { href, switchLocaleHref, t, tx, type Locale } from '@/lib/i18n'
-import ProductIcon from './ProductIcons'
+import { ProductThumbMini } from './ProductThumb'
 import { ADDRESS } from '@/lib/site'
 
 export default function Header({ locale }: { locale: Locale }) {
@@ -151,9 +151,7 @@ export default function Header({ locale }: { locale: Locale }) {
                             href={href(`/products/${p.slug}`, locale)}
                             className="group flex items-start gap-3 rounded-sm p-3 transition hover:bg-sand-100"
                           >
-                            <span className="mt-0.5 text-brand-600 transition group-hover:text-brand-800">
-                              <ProductIcon name={p.icon} className="h-5 w-5" />
-                            </span>
+                            <ProductThumbMini product={p} locale={locale} className="h-10 w-10" />
                             <span className="min-w-0">
                               <span className="block truncate text-[13.5px] font-bold text-steel-800 group-hover:text-brand-800">
                                 {productName(p, locale)}
@@ -268,7 +266,7 @@ export default function Header({ locale }: { locale: Locale }) {
                 href={href(`/products/${p.slug}`, locale)}
                 className="flex items-center gap-3 rounded-sm border border-steel-100 p-3 text-[13.5px] font-semibold text-steel-700"
               >
-                <ProductIcon name={p.icon} className="h-5 w-5 shrink-0 text-brand-600" />
+                <ProductThumbMini product={p} locale={locale} className="h-9 w-9" />
                 <span className="truncate">{productName(p, locale)}</span>
               </Link>
             ))}

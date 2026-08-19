@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 import HeroSlider from '@/components/HeroSlider'
 import Counters from '@/components/Counters'
 import Reveal from '@/components/Reveal'
-import ProductIcon from '@/components/ProductIcons'
+import ProductThumb from '@/components/ProductThumb'
 import { SERVICES } from '@/components/ServiceIcons'
 import { Container, SectionHeading, Card, ArrowIcon } from '@/components/ui'
 import { DotGrid, DiagonalLines, IndustrialSkyline } from '@/components/IndustrialArt'
@@ -158,25 +158,32 @@ export default async function HomePage({ params }: Props) {
               <Reveal key={p.slug} delay={(i % 3) * 80}>
                 <Link
                   href={href(`/products/${p.slug}`, locale)}
-                  className="group relative flex h-full flex-col bg-white p-8 transition-colors duration-300"
+                  className="group relative flex h-full flex-col bg-white transition-colors duration-300"
                 >
-                  <span className="absolute inset-y-0 w-0.5 origin-bottom scale-y-0 bg-brand-700 transition-transform duration-300 group-hover:scale-y-100 start-0" />
-                  <span className="inline-flex h-12 w-12 items-center justify-center rounded-sm bg-brand-50 text-brand-700 transition-all duration-300 group-hover:bg-brand-700 group-hover:text-white">
-                    <ProductIcon name={p.icon} className="h-6 w-6" />
-                  </span>
-                  <h3 className="mt-6 text-[17px] font-extrabold text-steel-900 transition group-hover:text-brand-800">
-                    {productName(p, locale)}
-                  </h3>
-                  {locale === 'ar' && (
-                    <p className="mt-1.5 text-[12px] font-semibold tracking-wide text-steel-400" dir="ltr">
-                      {p.name}
-                    </p>
-                  )}
-                  <p className="mt-4 grow text-[13.5px] leading-8 text-steel-600">{tx(p.tagline, locale)}</p>
-                  <span className="mt-6 inline-flex items-center gap-2 text-[13px] font-bold text-brand-700">
-                    {t('cta_details_specs', locale)}
-                    <ArrowIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
-                  </span>
+                  <span className="absolute inset-y-0 z-10 w-0.5 origin-bottom scale-y-0 bg-brand-700 transition-transform duration-300 group-hover:scale-y-100 start-0" />
+
+                  {/* صورة المنتج من البروشور */}
+                  <ProductThumb
+                    product={p}
+                    locale={locale}
+                    className="aspect-[4/3] border-b border-steel-100"
+                  />
+
+                  <div className="flex grow flex-col p-7">
+                    <h3 className="text-[17px] font-extrabold text-steel-900 transition group-hover:text-brand-800">
+                      {productName(p, locale)}
+                    </h3>
+                    {locale === 'ar' && (
+                      <p className="mt-1.5 text-[12px] font-semibold tracking-wide text-steel-400" dir="ltr">
+                        {p.name}
+                      </p>
+                    )}
+                    <p className="mt-3 grow text-[13.5px] leading-8 text-steel-600">{tx(p.tagline, locale)}</p>
+                    <span className="mt-5 inline-flex items-center gap-2 text-[13px] font-bold text-brand-700">
+                      {t('cta_details_specs', locale)}
+                      <ArrowIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
+                    </span>
+                  </div>
                 </Link>
               </Reveal>
             ))}

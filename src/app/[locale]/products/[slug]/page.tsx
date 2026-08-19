@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import Reveal from '@/components/Reveal'
-import ProductIcon from '@/components/ProductIcons'
+import ProductThumb, { ProductThumbMini } from '@/components/ProductThumb'
 import ChemicalsList from '@/components/ChemicalsList'
 import { Container, PageHero } from '@/components/ui'
 import { PRODUCTS, getProduct, productName } from '@/data/products'
@@ -53,16 +53,19 @@ export default async function ProductPage({ params }: Props) {
           <div className="grid gap-14 lg:grid-cols-12">
             <div className="lg:col-span-8">
               <Reveal>
-                <div className="flex items-start gap-5 border-b border-steel-100 pb-9">
-                  <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-sm bg-brand-50 text-brand-700">
-                    <ProductIcon name={product.icon} className="h-8 w-8" />
-                  </span>
-                  <div>
-                    <p className="text-[13px] font-bold tracking-wide text-brand-700" dir="ltr">
-                      {product.name}
-                    </p>
-                    <p className="mt-3 text-[15px] leading-9 text-steel-600">{tx(product.intro, locale)}</p>
-                  </div>
+                <div className="border-b border-steel-100 pb-9">
+                  {/* صورة المنتج من البروشور */}
+                  <ProductThumb
+                    product={product}
+                    locale={locale}
+                    zoom={false}
+                    sizes="(max-width: 1024px) 100vw, 660px"
+                    className="aspect-[16/9] rounded-sm border border-steel-200"
+                  />
+                  <p className="mt-7 text-[13px] font-bold tracking-wide text-brand-700" dir="ltr">
+                    {product.name}
+                  </p>
+                  <p className="mt-3 text-[15px] leading-9 text-steel-600">{tx(product.intro, locale)}</p>
                 </div>
               </Reveal>
 
@@ -181,9 +184,9 @@ export default async function ProductPage({ params }: Props) {
                       <li key={o.slug}>
                         <Link
                           href={href(`/products/${o.slug}`, locale)}
-                          className="group flex items-center gap-3 rounded-sm px-3 py-2.5 text-[13.5px] font-semibold text-steel-600 transition hover:bg-sand-100 hover:text-brand-800"
+                          className="group flex items-center gap-3 rounded-sm p-2 text-[13.5px] font-semibold text-steel-600 transition hover:bg-sand-100 hover:text-brand-800"
                         >
-                          <ProductIcon name={o.icon} className="h-4.5 w-4.5 shrink-0 text-brand-500 transition group-hover:text-brand-700" />
+                          <ProductThumbMini product={o} locale={locale} className="h-11 w-11" />
                           <span className="truncate">{productName(o, locale)}</span>
                         </Link>
                       </li>

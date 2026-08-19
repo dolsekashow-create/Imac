@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import Reveal from '@/components/Reveal'
-import ProductIcon from '@/components/ProductIcons'
+import ProductThumb from '@/components/ProductThumb'
 import { Container, SectionHeading, PageHero, ArrowIcon, HERO_IMAGES } from '@/components/ui'
 import { DiagonalLines } from '@/components/IndustrialArt'
 import { PRODUCTS, productName } from '@/data/products'
@@ -53,37 +53,38 @@ export default async function ProductsPage({ params }: Props) {
               <Reveal key={p.slug} delay={(i % 3) * 80}>
                 <Link
                   href={href(`/products/${p.slug}`, locale)}
-                  className="group relative flex h-full flex-col overflow-hidden rounded-sm border border-steel-200 bg-white p-8 transition-all duration-300 hover:-translate-y-1 hover:border-brand-300 hover:shadow-xl hover:shadow-steel-900/[0.07]"
+                  className="group relative flex h-full flex-col overflow-hidden rounded-sm border border-steel-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-brand-300 hover:shadow-xl hover:shadow-steel-900/[0.07]"
                 >
-                  <span className="absolute -top-8 h-28 w-28 rounded-full bg-brand-50 transition-transform duration-500 group-hover:scale-[2.6] -start-8" />
+                  {/* صورة المنتج من البروشور */}
+                  <ProductThumb
+                    product={p}
+                    locale={locale}
+                    className="aspect-[4/3] border-b border-steel-100"
+                  />
 
-                  <span className="relative inline-flex h-14 w-14 items-center justify-center rounded-sm bg-brand-50 text-brand-700 transition-all duration-300 group-hover:bg-brand-700 group-hover:text-white">
-                    <ProductIcon name={p.icon} className="h-7 w-7" />
-                  </span>
+                  <div className="flex grow flex-col p-7">
+                    <h2 className="text-[18px] font-extrabold text-steel-900 transition group-hover:text-brand-800">
+                      {productName(p, locale)}
+                    </h2>
+                    {locale === 'ar' && (
+                      <p className="mt-1.5 text-[12px] font-semibold tracking-wide text-steel-400" dir="ltr">
+                        {p.name}
+                      </p>
+                    )}
+                    <p className="mt-3 grow text-[13.5px] leading-8 text-steel-600">{tx(p.tagline, locale)}</p>
 
-                  <h2 className="relative mt-6 text-[18px] font-extrabold text-steel-900 transition group-hover:text-brand-800">
-                    {productName(p, locale)}
-                  </h2>
-                  {locale === 'ar' && (
-                    <p className="relative mt-1.5 text-[12px] font-semibold tracking-wide text-steel-400" dir="ltr">
-                      {p.name}
-                    </p>
-                  )}
-                  <p className="relative mt-4 grow text-[13.5px] leading-8 text-steel-600">
-                    {tx(p.tagline, locale)}
-                  </p>
-
-                  <span className="relative mt-6 flex items-center justify-between border-t border-steel-100 pt-5 text-[13px] font-bold text-brand-700">
-                    <span>
-                      {p.slug === 'chemicals'
-                        ? `${CHEMICALS_COUNT} ${t('products_chem_count', locale)}`
-                        : `${p.groups.reduce((n, g) => n + g.items.length, 0)} ${t('products_item_count', locale)}`}
+                    <span className="mt-5 flex items-center justify-between border-t border-steel-100 pt-5 text-[13px] font-bold text-brand-700">
+                      <span>
+                        {p.slug === 'chemicals'
+                          ? `${CHEMICALS_COUNT} ${t('products_chem_count', locale)}`
+                          : `${p.groups.reduce((n, g) => n + g.items.length, 0)} ${t('products_item_count', locale)}`}
+                      </span>
+                      <span className="inline-flex items-center gap-2">
+                        {t('cta_details', locale)}
+                        <ArrowIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
+                      </span>
                     </span>
-                    <span className="inline-flex items-center gap-2">
-                      {t('cta_details', locale)}
-                      <ArrowIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
-                    </span>
-                  </span>
+                  </div>
                 </Link>
               </Reveal>
             ))}
