@@ -34,7 +34,14 @@ export const WHATSAPP = { display: '01280226210', number: '201280226210' } as co
 export const WHATSAPP_URL = `https://wa.me/${WHATSAPP.number}`
 
 /** البريد الإلكتروني */
+/** البريد الأساسي — كل أزرار المراسلة ونموذج طلب عرض السعر بتروح عليه */
 export const EMAIL = 'info@imac-eg.com'
+
+/** بريد إضافي بيظهر جنب الأساسي في بيانات التواصل */
+export const EMAIL_ALT = 'ismail.imacps@gmail.com'
+
+/** كل عناوين البريد — الأساسي الأول */
+export const EMAILS = [EMAIL, EMAIL_ALT] as const
 
 /** العنوان */
 export const ADDRESS = {

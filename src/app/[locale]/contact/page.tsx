@@ -8,6 +8,7 @@ import {
   PHONES,
   FAXES,
   EMAIL,
+  EMAILS,
   WHATSAPP,
   ADDRESS,
   MAP_URL,
@@ -59,7 +60,7 @@ export default async function ContactPage({ params }: Props) {
             <ContactCard
               label={t('contact_email', locale)}
               icon={<IconMail />}
-              items={[{ text: EMAIL, href: `mailto:${EMAIL}` }]}
+              items={EMAILS.map((mail) => ({ text: mail, href: `mailto:${mail}` }))}
               small
             />
           </div>

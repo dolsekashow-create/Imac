@@ -7,6 +7,7 @@ import {
   PHONES,
   FAXES,
   EMAIL,
+  EMAILS,
   WHATSAPP,
   ADDRESS,
   MAP_URL,
@@ -150,13 +151,17 @@ export default function Footer({ locale }: { locale: Locale }) {
               <Dot />
               <span>
                 <span className="block text-steel-500">{t('contact_email', locale)}</span>
-                <a
-                  href={`mailto:${EMAIL}`}
-                  dir="ltr"
-                  className="mt-1 block text-left font-semibold break-all text-steel-200 transition hover:text-brand-300"
-                >
-                  {EMAIL}
-                </a>
+                <span className="mt-1 block space-y-1" dir="ltr">
+                  {EMAILS.map((mail) => (
+                    <a
+                      key={mail}
+                      href={`mailto:${mail}`}
+                      className="block text-left font-semibold break-all text-steel-200 transition hover:text-brand-300"
+                    >
+                      {mail}
+                    </a>
+                  ))}
+                </span>
               </span>
             </li>
             <li className="flex gap-3">
