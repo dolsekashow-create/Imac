@@ -1,5 +1,8 @@
+import type { L, Locale } from '@/lib/i18n'
+
 /**
  * كتالوج المنتجات — البيانات مأخوذة من بروشور الشركة
+ * كل النصوص الوصفية بلغتين، والمواصفات الفنية بالإنجليزي كما هي في البروشور
  */
 
 export type IconName =
@@ -17,63 +20,83 @@ export type IconName =
   | 'chemical'
   | 'heat'
 
-export type ProductGroup = {
-  title: string
-  note?: string
-  items: string[]
-}
-
-export type ProductSpec = { label: string; value: string }
-
-export type ProductFeature = { title: string; body: string }
+export type ProductGroup = { title: L; note?: L; items: string[] }
+export type ProductSpec = { label: L; value: L }
+export type ProductFeature = { title: L; body: L }
 
 export type ProductCategory = {
   slug: string
   name: string
   nameAr: string
-  tagline: string
-  intro: string
+  tagline: L
+  intro: L
   icon: IconName
   specs?: ProductSpec[]
   features?: ProductFeature[]
   groups: ProductGroup[]
 }
 
+/** اسم الفئة حسب اللغة */
+export const productName = (p: ProductCategory, l: Locale) => (l === 'ar' ? p.nameAr : p.name)
+
 export const PRODUCTS: ProductCategory[] = [
   {
     slug: 'mass-transfer',
     name: 'Mass Transfer Technology & Equipment',
     nameAr: 'تقنيات ومعدات نقل الكتلة',
-    tagline: 'صواني وحشوات الأبراج والحلول الهندسية لعمليات الفصل',
-    intro:
-      'نقوم بتطوير وتوريد مجموعة متكاملة من المعدات الداخلية لنقل الكتلة والفصل، كما نقدّم الحلول الهندسية لمشروعات نقل الكتلة والفصل. تشمل محفظتنا منتجات بأحدث التقنيات لعمليات التقطير، والامتصاص، والتجريد، والتبخير، وفصل الأطوار المتعددة، والاستخلاص سائل–سائل، والتبلور، والفصل بالأغشية.',
+    tagline: {
+      ar: 'صواني وحشوات الأبراج والحلول الهندسية لعمليات الفصل',
+      en: 'Tower trays, packing and engineering solutions for separation processes',
+    },
+    intro: {
+      ar: 'نقوم بتطوير وتوريد مجموعة متكاملة من المعدات الداخلية لنقل الكتلة والفصل، كما نقدّم الحلول الهندسية لمشروعات نقل الكتلة والفصل. تشمل محفظتنا منتجات بأحدث التقنيات لعمليات التقطير، والامتصاص، والتجريد، والتبخير، وفصل الأطوار المتعددة، والاستخلاص سائل–سائل، والتبلور، والفصل بالأغشية.',
+      en: 'We develop and supply a comprehensive range of mass transfer and separation internal equipment, and offer engineering solutions for mass transfer and separation projects. Our portfolio includes state-of-the-art products for distillation, absorption, stripping, evaporation, multi-phase separation, liquid-liquid extraction, crystallization and membrane separation.',
+    },
     icon: 'tower',
     features: [
       {
-        title: 'Sieve Tray — الصينية المثقّبة',
-        body: 'ألواح معدنية مثقّبة يمر البخار خلالها رأسياً عبر السائل الموجود على الصينية. ترتيب الثقوب وعددها ومقاسها من عوامل التصميم. تتميّز بكفاءتها العالية ونطاق تشغيل واسع وسهولة الصيانة وانخفاض التكلفة.',
+        title: { ar: 'Sieve Tray — الصينية المثقّبة', en: 'Sieve Tray' },
+        body: {
+          ar: 'ألواح معدنية مثقّبة يمر البخار خلالها رأسياً عبر السائل الموجود على الصينية. ترتيب الثقوب وعددها ومقاسها من عوامل التصميم. تتميّز بكفاءتها العالية ونطاق تشغيل واسع وسهولة الصيانة وانخفاض التكلفة.',
+          en: 'Sieve trays are simply metal plates with holes in them. Vapour passes straight upward through the liquid on the plate. The arrangement, number and size of the holes are design parameters. Chosen for their efficiency, wide operating range, ease of maintenance and cost.',
+        },
       },
       {
-        title: 'Valve Tray — صينية الصمامات',
-        body: 'أكثر أنواع الصواني استخداماً لملاءمتها لمجموعة كبيرة من تطبيقات نقل الكتلة، وتتميّز بسعة عالية ومدى تحميل واسع مما ينتج عنه معدلات نقل كتلة ممتازة.',
+        title: { ar: 'Valve Tray — صينية الصمامات', en: 'Valve Tray' },
+        body: {
+          ar: 'أكثر أنواع الصواني استخداماً لملاءمتها لمجموعة كبيرة من تطبيقات نقل الكتلة، وتتميّز بسعة عالية ومدى تحميل واسع مما ينتج عنه معدلات نقل كتلة ممتازة.',
+          en: 'Valve trays are the most commonly used tray type because of their suitability for a large variety of mass transfer applications. They are characterised by high capacity and a large load range, which results in good mass transfer rates.',
+        },
       },
       {
-        title: 'Bubble Cap Tray — صينية الأغطية الفقاعية',
-        body: 'تحتوي على أنبوب صاعد فوق كل فتحة مع غطاء يعلوه، مع مسافة بين الأنبوب والغطاء لمرور البخار. يصعد البخار عبر المدخنة ويُوجَّه لأسفل بواسطة الغطاء ثم يخرج من الفتحات ليتخلّل السائل على الصينية.',
+        title: { ar: 'Bubble Cap Tray — صينية الأغطية الفقاعية', en: 'Bubble Cap Tray' },
+        body: {
+          ar: 'تحتوي على أنبوب صاعد فوق كل فتحة مع غطاء يعلوه، مع مسافة بين الأنبوب والغطاء لمرور البخار. يصعد البخار عبر المدخنة ويُوجَّه لأسفل بواسطة الغطاء ثم يخرج من الفتحات ليتخلّل السائل على الصينية.',
+          en: 'A bubble cap tray has a riser or chimney fitted over each hole, and a cap that covers the riser. The cap is mounted so there is a space between riser and cap to allow the passage of vapour. Vapour rises through the chimney, is directed downward by the cap, then discharges through slots in the cap and bubbles through the liquid on the tray.',
+        },
       },
       {
-        title: 'Dual Flow Tray — الصينية ثنائية السريان',
-        body: 'صواني مثقّبة بدون أنابيب هابطة، ويأتي الاسم من السريان المتعاكس للبخار والسائل خلال الثقوب. الأنسب للأنظمة ذات المحتوى الصلب المتوسط إلى العالي أو المركبات القابلة للبلمرة، وتتميّز بسعة أعلى وفقد ضغط أقل.',
+        title: { ar: 'Dual Flow Tray — الصينية ثنائية السريان', en: 'Dual Flow Tray' },
+        body: {
+          ar: 'صواني مثقّبة بدون أنابيب هابطة، ويأتي الاسم من السريان المتعاكس للبخار والسائل خلال الثقوب. الأنسب للأنظمة ذات المحتوى الصلب المتوسط إلى العالي أو المركبات القابلة للبلمرة، وتتميّز بسعة أعلى وفقد ضغط أقل.',
+          en: 'Dual flow trays are sieve trays without downcomers. The term dual flow comes from the countercurrent flow of vapour and liquid through the perforations. Best suited to systems with moderate to high solids content or polymerizable compounds. High open area dual flow trays offer higher capacity and lower pressure drop than comparably spaced fractionation trays.',
+        },
       },
       {
-        title: 'Cartridge Tray — الصينية الخرطوشية',
-        body: 'مناسبة للأقطار الصغيرة وفلانشات الجسم، ويمكن توفير حتى 5 صواني في الخرطوشة الواحدة، مع خيارات إحكام متعددة.',
+        title: { ar: 'Cartridge Tray — الصينية الخرطوشية', en: 'Cartridge Tray' },
+        body: {
+          ar: 'مناسبة للأقطار الصغيرة وفلانشات الجسم، ويمكن توفير حتى 5 صواني في الخرطوشة الواحدة، مع خيارات إحكام متعددة.',
+          en: 'Suitable for small diameter body flanges. Can provide up to 5 trays per cartridge, with different sealing options available.',
+        },
       },
     ],
     groups: [
       {
-        title: 'Tower Trays — صواني الأبراج',
-        note: 'خط كامل من الصواني بجميع الخامات، من التصميمات التقليدية إلى الصواني عالية الأداء وأحدث التطويرات.',
+        title: { ar: 'صواني الأبراج — Tower Trays', en: 'Tower Trays' },
+        note: {
+          ar: 'خط كامل من الصواني بجميع الخامات، من التصميمات التقليدية إلى الصواني عالية الأداء وأحدث التطويرات.',
+          en: 'A full line of trays in all materials, from conventional designs to high performance trays and the latest developments.',
+        },
         items: [
           'Sieve Tray',
           'Valve Tray',
@@ -84,8 +107,11 @@ export const PRODUCTS: ProductCategory[] = [
         ],
       },
       {
-        title: 'Packing & Hardware — الحشوات والمُلحقات',
-        note: 'خط كامل من حشوات الأبراج والصواني والمُلحقات بجميع درجات الخامات.',
+        title: { ar: 'الحشوات والمُلحقات — Packing & Hardware', en: 'Packing & Hardware' },
+        note: {
+          ar: 'خط كامل من حشوات الأبراج والصواني والمُلحقات بجميع درجات الخامات.',
+          en: 'A full range of tower and tray packing and hardware in all material grades.',
+        },
         items: [
           'Random Packing',
           'Structured Packing',
@@ -101,19 +127,33 @@ export const PRODUCTS: ProductCategory[] = [
     slug: 'pipes-and-fittings',
     name: 'Pipes & Fittings',
     nameAr: 'المواسير والوصلات',
-    tagline: 'مواسير كربون وستانلس وكروم–موليبدنم بجميع المواصفات',
-    intro:
-      'نوفّر ونخزّن أوسع مجموعة من الدرجات والمقاسات، ويسعدنا التعامل مع الطلبات صعبة التوريد أو استفسارات المشروعات ذات المواصفات الحرجة.',
+    tagline: {
+      ar: 'مواسير كربون وستانلس وكروم–موليبدنم بجميع المواصفات',
+      en: 'Carbon, stainless and chrome-moly pipes in all specifications',
+    },
+    intro: {
+      ar: 'نوفّر ونخزّن أوسع مجموعة من الدرجات والمقاسات، ويسعدنا التعامل مع الطلبات صعبة التوريد أو استفسارات المشروعات ذات المواصفات الحرجة.',
+      en: 'We supply and stock the most impressive range of grades and sizes. We like to be challenged with your hard-to-source items or project enquiries with critical specifications.',
+    },
     icon: 'pipe',
     specs: [
-      { label: 'Carbon Steel', value: 'حتى "42 بدون لحام (Seamless)' },
-      { label: 'Stainless Steel', value: 'حتى "36 بدون لحام (Seamless)' },
-      { label: 'Cr-Mo Steel', value: 'حتى "38 بدون لحام (Seamless)' },
+      {
+        label: { ar: 'Carbon Steel', en: 'Carbon Steel' },
+        value: { ar: 'حتى "42 بدون لحام (Seamless)', en: 'Up to 42" seamless' },
+      },
+      {
+        label: { ar: 'Stainless Steel', en: 'Stainless Steel' },
+        value: { ar: 'حتى "36 بدون لحام (Seamless)', en: 'Up to 36" seamless' },
+      },
+      {
+        label: { ar: 'Cr-Mo Steel', en: 'Cr-Mo Steel' },
+        value: { ar: 'حتى "38 بدون لحام (Seamless)', en: 'Up to 38" seamless' },
+      },
     ],
     groups: [
       {
-        title: 'Carbon Steel Pipes — مواسير الصلب الكربوني',
-        note: 'متاحة حتى مقاس 42 بوصة بدون لحام.',
+        title: { ar: 'مواسير الصلب الكربوني — Carbon Steel Pipes', en: 'Carbon Steel Pipes' },
+        note: { ar: 'متاحة حتى مقاس 42 بوصة بدون لحام.', en: 'Available up to 42" seamless.' },
         items: [
           'ASTM SA106 Gr.B / Gr.C',
           'ASTM SA333 Gr.6',
@@ -123,8 +163,8 @@ export const PRODUCTS: ProductCategory[] = [
         ],
       },
       {
-        title: 'Stainless Steel Pipes — مواسير الستانلس ستيل',
-        note: 'متاحة حتى مقاس 36 بوصة بدون لحام.',
+        title: { ar: 'مواسير الستانلس ستيل — Stainless Steel Pipes', en: 'Stainless Steel Pipes' },
+        note: { ar: 'متاحة حتى مقاس 36 بوصة بدون لحام.', en: 'Available up to 36" seamless.' },
         items: [
           'ASTM SA312 TP316 / 316L',
           'ASTM SA312 TP304 / 304L',
@@ -135,8 +175,11 @@ export const PRODUCTS: ProductCategory[] = [
         ],
       },
       {
-        title: 'Cr-Mo Alloy Steel Pipes — مواسير سبائك الكروم موليبدنم',
-        note: 'جميع درجات الكروم–موليبدنم حتى مقاس 38 بوصة بدون لحام.',
+        title: { ar: 'مواسير سبائك الكروم موليبدنم — Cr-Mo Alloy Steel Pipes', en: 'Cr-Mo Alloy Steel Pipes' },
+        note: {
+          ar: 'جميع درجات الكروم–موليبدنم حتى مقاس 38 بوصة بدون لحام.',
+          en: 'All chrome-moly grades up to 38" seamless.',
+        },
         items: [
           'ASTM SA335 P1, P11, P12, P22',
           'ASTM SA335 P5, P9, P91, P92',
@@ -146,8 +189,11 @@ export const PRODUCTS: ProductCategory[] = [
         ],
       },
       {
-        title: 'Fittings — الوصلات',
-        note: 'أكواع وتيهات ومخاريط وطبات وجميع أنواع الوصلات بالخامات التالية.',
+        title: { ar: 'الوصلات — Fittings', en: 'Fittings' },
+        note: {
+          ar: 'أكواع وتيهات ومخاريط وطبات وجميع أنواع الوصلات بالخامات التالية.',
+          en: 'Elbows, tees, reducers, caps and all fitting types in the following materials.',
+        },
         items: [
           'Carbon Steel — ASTM A234 Gr.WPA / WPB',
           'Carbon Steel — ASTM A420 Gr.WPL6',
@@ -164,25 +210,26 @@ export const PRODUCTS: ProductCategory[] = [
     slug: 'flanges',
     name: 'Flanges',
     nameAr: 'الفلانشات',
-    tagline: 'فلانشات صلب كربوني وسبائك وستانلس بكل المواصفات العالمية',
-    intro:
-      'نورّد الفلانشات بجميع الأنواع والمقاسات ودرجات الضغط، مصنّعة وفقاً للمواصفات الأمريكية والأوروبية، وبخامات تناسب تطبيقات البترول والغاز والبتروكيماويات ومحطات الطاقة.',
+    tagline: {
+      ar: 'فلانشات صلب كربوني وسبائك وستانلس بكل المواصفات العالمية',
+      en: 'Carbon, alloy and stainless steel flanges to all international standards',
+    },
+    intro: {
+      ar: 'نورّد الفلانشات بجميع الأنواع والمقاسات ودرجات الضغط، مصنّعة وفقاً للمواصفات الأمريكية والأوروبية، وبخامات تناسب تطبيقات البترول والغاز والبتروكيماويات ومحطات الطاقة.',
+      en: 'We supply flanges in all types, sizes and pressure ratings, manufactured to American and European standards, in materials suited to oil, gas, petrochemical and power plant applications.',
+    },
     icon: 'flange',
     groups: [
       {
-        title: 'Carbon Steel — الصلب الكربوني',
+        title: { ar: 'الصلب الكربوني — Carbon Steel', en: 'Carbon Steel' },
         items: ['ASTM A105', 'ASTM A350 LF1 / LF2', 'ASTM A181'],
       },
       {
-        title: 'Alloy Steel — سبائك الصلب',
-        items: [
-          'ASTM A182 F1 / F2 / F5',
-          'ASTM A182 F7 / F9',
-          'ASTM A182 F11 / F12 / F22',
-        ],
+        title: { ar: 'سبائك الصلب — Alloy Steel', en: 'Alloy Steel' },
+        items: ['ASTM A182 F1 / F2 / F5', 'ASTM A182 F7 / F9', 'ASTM A182 F11 / F12 / F22'],
       },
       {
-        title: 'Stainless Steel — الستانلس ستيل',
+        title: { ar: 'الستانلس ستيل — Stainless Steel', en: 'Stainless Steel' },
         items: [
           'ASTM A182 F6',
           'ASTM A182 F304 / F304L',
@@ -198,13 +245,18 @@ export const PRODUCTS: ProductCategory[] = [
     slug: 'tubes',
     name: 'Tubes',
     nameAr: 'الأنابيب — Tubes',
-    tagline: 'أنابيب الغلايات والمكثّفات والمبادلات الحرارية بجميع الخامات',
-    intro:
-      'مجموعة واسعة من المنتجات الأنبوبية للتطبيقات الحرارية والكيماوية والبترولية، بخامات تشمل الصلب الكربوني والستانلس والتيتانيوم وسبائك النيكل والنحاس–نيكل والدوبلكس.',
+    tagline: {
+      ar: 'أنابيب الغلايات والمكثّفات والمبادلات الحرارية بجميع الخامات',
+      en: 'Boiler, condenser and heat exchanger tubes in all materials',
+    },
+    intro: {
+      ar: 'مجموعة واسعة من المنتجات الأنبوبية للتطبيقات الحرارية والكيماوية والبترولية، بخامات تشمل الصلب الكربوني والستانلس والتيتانيوم وسبائك النيكل والنحاس–نيكل والدوبلكس.',
+      en: 'A wide range of tubular products for thermal, chemical and petroleum applications, in materials including carbon and stainless steel, titanium, nickel alloys, copper-nickel and duplex.',
+    },
     icon: 'tube',
     groups: [
       {
-        title: 'Tubular Products — المنتجات الأنبوبية',
+        title: { ar: 'المنتجات الأنبوبية — Tubular Products', en: 'Tubular Products' },
         items: [
           'Aerospace Tubes',
           'Bimetallic Tubes',
@@ -220,7 +272,7 @@ export const PRODUCTS: ProductCategory[] = [
         ],
       },
       {
-        title: 'Materials — الخامات',
+        title: { ar: 'الخامات — Materials', en: 'Materials' },
         items: [
           'Carbon & Stainless Steel',
           'Titanium',
@@ -237,19 +289,39 @@ export const PRODUCTS: ProductCategory[] = [
     slug: 'valves',
     name: 'Valves',
     nameAr: 'المحابس والصمامات',
-    tagline: 'محابس من "½ حتى "48 بكل الخامات وطرق التشغيل',
-    intro:
-      'نورّد المحابس والصمامات بكامل نطاق الخامات وفقاً لمتطلبات العميل، مع حلول متخصصة لصناعات البتروكيماويات تتعامل بأمان مع الكيماويات الأكّالة.',
+    tagline: {
+      ar: 'محابس من "½ حتى "48 بكل الخامات وطرق التشغيل',
+      en: 'Valves from ½" to 48" in all materials and operating types',
+    },
+    intro: {
+      ar: 'نورّد المحابس والصمامات بكامل نطاق الخامات وفقاً لمتطلبات العميل، مع حلول متخصصة لصناعات البتروكيماويات تتعامل بأمان مع الكيماويات الأكّالة.',
+      en: 'We supply valves across the full range of materials according to customer requirements, with dedicated solutions for petrochemical industries that safely handle corrosive chemicals.',
+    },
     icon: 'valve',
     specs: [
-      { label: 'Size — المقاس', value: 'From ½" to 48"' },
-      { label: 'End Connection — نهاية التوصيل', value: 'RF – BW – SW – NPT' },
-      { label: 'Operation — التشغيل', value: 'Hand wheel – Manual gear – Actuator' },
+      {
+        label: { ar: 'المقاس — Size', en: 'Size' },
+        value: { ar: 'From ½" to 48"', en: 'From ½" to 48"' },
+      },
+      {
+        label: { ar: 'نهاية التوصيل — End Connection', en: 'End Connection' },
+        value: { ar: 'RF – BW – SW – NPT', en: 'RF – BW – SW – NPT' },
+      },
+      {
+        label: { ar: 'التشغيل — Operation', en: 'Operation' },
+        value: {
+          ar: 'Hand wheel – Manual gear – Actuator',
+          en: 'Hand wheel – Manual gear – Actuator',
+        },
+      },
     ],
     groups: [
       {
-        title: 'Materials — الخامات',
-        note: 'نطاق كامل من الخامات وفقاً لمتطلبات العميل.',
+        title: { ar: 'الخامات — Materials', en: 'Materials' },
+        note: {
+          ar: 'نطاق كامل من الخامات وفقاً لمتطلبات العميل.',
+          en: 'Full range of materials according to customer requirements.',
+        },
         items: [
           'Ductile Iron / Cast Iron',
           'Stainless Steel — 304 / 304L / CF8 / CF3',
@@ -263,9 +335,14 @@ export const PRODUCTS: ProductCategory[] = [
         ],
       },
       {
-        title: 'Valves for Petrochemical Industries — محابس البتروكيماويات',
-        note:
-          'حل موثوق واقتصادي للتعامل مع الكيماويات الأكّالة، بما فيها حمض الكبريتيك والهيدروفلوريك وحمض النيتريك والمواد المؤكسدة والقلويات والمذيبات والهالوجينات وغيرها من السوائل الحرجة. تعمل حتى درجة حرارة 250°F وضغط حتى 230 psi وتصرّف حتى 18,500 gpm، وجميعها تحقّق أو تتجاوز ANSI Class 6 shut-off.',
+        title: {
+          ar: 'محابس البتروكيماويات — Valves for Petrochemical Industries',
+          en: 'Valves for Petrochemical Industries',
+        },
+        note: {
+          ar: 'حل موثوق واقتصادي للتعامل مع الكيماويات الأكّالة، بما فيها حمض الكبريتيك والهيدروفلوريك وحمض النيتريك والمواد المؤكسدة والقلويات والمذيبات والهالوجينات وغيرها من السوائل الحرجة. تعمل حتى درجة حرارة 250°F وضغط حتى 230 psi وتصرّف حتى 18,500 gpm، وجميعها تحقّق أو تتجاوز ANSI Class 6 shut-off.',
+          en: 'A dependable and economical way to handle corrosive chemicals, including sulfuric and hydrofluoric acid, nitric acid, oxidizing chemicals, caustics, solvents, halogens and various other hostile fluids. They perform at temperatures up to 250°F, pressures up to 230 psi and flows up to 18,500 gpm. All valves meet or exceed ANSI Class 6 shut-off.',
+        },
         items: [
           'Gate Valves',
           'Globe Valves',
@@ -276,7 +353,7 @@ export const PRODUCTS: ProductCategory[] = [
         ],
       },
       {
-        title: 'Petrochemical Range — مواصفات خط البتروكيماويات',
+        title: { ar: 'مواصفات خط البتروكيماويات — Petrochemical Range', en: 'Petrochemical Range' },
         items: [
           'Size: ½" – 10"',
           'Body: PVC / CPVC (½" – 4")',
@@ -293,13 +370,18 @@ export const PRODUCTS: ProductCategory[] = [
     slug: 'steam-traps',
     name: 'Steam Traps',
     nameAr: 'مصائد البخار',
-    tagline: 'مصائد بخار ومنظومات تصريف المتكثّفات بكل الأنواع',
-    intro:
-      'مجموعة كاملة من مصائد البخار ومُلحقات شبكات البخار، لضمان تصريف المتكثّفات بكفاءة والحفاظ على أداء المنظومة وتقليل فواقد الطاقة.',
+    tagline: {
+      ar: 'مصائد بخار ومنظومات تصريف المتكثّفات بكل الأنواع',
+      en: 'Steam traps and condensate removal systems of every type',
+    },
+    intro: {
+      ar: 'مجموعة كاملة من مصائد البخار ومُلحقات شبكات البخار، لضمان تصريف المتكثّفات بكفاءة والحفاظ على أداء المنظومة وتقليل فواقد الطاقة.',
+      en: 'A complete range of steam traps and steam network accessories, ensuring efficient condensate removal, maintaining system performance and reducing energy losses.',
+    },
     icon: 'steam',
     groups: [
       {
-        title: 'Types & Accessories — الأنواع والمُلحقات',
+        title: { ar: 'الأنواع والمُلحقات — Types & Accessories', en: 'Types & Accessories' },
         items: [
           'Thermodynamic',
           'Balanced Pressure Thermostatic',
@@ -320,19 +402,24 @@ export const PRODUCTS: ProductCategory[] = [
     slug: 'rupture-discs',
     name: 'Safety Rupture Discs',
     nameAr: 'أقراص الأمان الانفجارية',
-    tagline: 'حماية الأوعية والخطوط من الضغط الزائد',
-    intro:
-      'تُعد أقراص الأمان — بعد صمامات الأمان — من أكثر وسائل الحماية من الضغط استخداماً في المنشآت الصناعية، حيث تحمي الأوعية وخطوط الأنابيب من التشوّه والأضرار الأخرى. والهدف الأساسي منها هو تحقيق الحماية المُثلى مع تقليل زمن توقّف المنظومة إلى أدنى حد.',
+    tagline: {
+      ar: 'حماية الأوعية والخطوط من الضغط الزائد',
+      en: 'Protecting vessels and lines from overpressure',
+    },
+    intro: {
+      ar: 'تُعد أقراص الأمان — بعد صمامات الأمان — من أكثر وسائل الحماية من الضغط استخداماً في المنشآت الصناعية، حيث تحمي الأوعية وخطوط الأنابيب من التشوّه والأضرار الأخرى. والهدف الأساسي منها هو تحقيق الحماية المُثلى مع تقليل زمن توقّف المنظومة إلى أدنى حد.',
+      en: 'Rupture discs are, next to safety valves, the most commonly used pressure protection devices in industrial plants. They protect vessels and pipelines from deformation and other damage. The main objective is to optimally protect and, at the same time, minimise system downtime.',
+    },
     icon: 'disc',
     groups: [
       {
-        title: 'Applications — مجالات الاستخدام',
+        title: { ar: 'مجالات الاستخدام — Applications', en: 'Applications' },
         items: [
-          'حماية الأوعية والمفاعلات من الضغط الزائد',
-          'حماية خطوط الأنابيب والشبكات',
-          'التركيب المنفرد أو بالتوازي مع صمامات الأمان',
-          'التطبيقات ذات المتطلبات الصحية والنظيفة',
-          'الخدمات التآكلية والضغوط النبضية',
+          'Overpressure protection for vessels and reactors',
+          'Pipeline and network protection',
+          'Standalone or in parallel with safety valves',
+          'Sanitary and clean-service applications',
+          'Corrosive service and pulsating pressures',
         ],
       },
     ],
@@ -342,14 +429,22 @@ export const PRODUCTS: ProductCategory[] = [
     slug: 'steel-products',
     name: 'Steel Products',
     nameAr: 'منتجات الصلب',
-    tagline: 'ألواح وصاج وتيوب شيت وبارات وقيعان مقبّبة',
-    intro:
-      'نورّد ألواح وصاج الصلب وألواح التثبيت (Tube Sheets) والبارات الدائرية والقيعان المقبّبة بجميع الخامات الهندسية، لخدمة ورش التصنيع ومشروعات الأوعية والمبادلات الحرارية.',
+    tagline: {
+      ar: 'ألواح وصاج وتيوب شيت وبارات وقيعان مقبّبة',
+      en: 'Plates, sheets, tube sheets, round bars and dished ends',
+    },
+    intro: {
+      ar: 'نورّد ألواح وصاج الصلب وألواح التثبيت (Tube Sheets) والبارات الدائرية والقيعان المقبّبة بجميع الخامات الهندسية، لخدمة ورش التصنيع ومشروعات الأوعية والمبادلات الحرارية.',
+      en: 'We supply steel plates and sheets, tube sheets, round bars and dished ends in all engineering materials, serving fabrication workshops and vessel and heat exchanger projects.',
+    },
     icon: 'steel',
     groups: [
       {
-        title: 'Steel Sheets / Plates – Tube Sheets – Round Bars',
-        note: 'الخامات المتاحة:',
+        title: {
+          ar: 'ألواح وصاج – تيوب شيت – بارات دائرية',
+          en: 'Steel Sheets / Plates – Tube Sheets – Round Bars',
+        },
+        note: { ar: 'الخامات المتاحة:', en: 'Available materials:' },
         items: [
           'Carbon & Alloy Steel',
           'Nickel & High Temp Alloys',
@@ -361,8 +456,11 @@ export const PRODUCTS: ProductCategory[] = [
         ],
       },
       {
-        title: 'Dished Ends / Elliptical Heads — القيعان المقبّبة',
-        note: 'الخامات المتاحة:',
+        title: {
+          ar: 'القيعان المقبّبة — Dished Ends / Elliptical Heads',
+          en: 'Dished Ends / Elliptical Heads',
+        },
+        note: { ar: 'الخامات المتاحة:', en: 'Available materials:' },
         items: [
           'Carbon & Alloy Steel',
           'Nickel & High Temp Alloys',
@@ -377,13 +475,18 @@ export const PRODUCTS: ProductCategory[] = [
     slug: 'sealing-products',
     name: 'Sealing Products',
     nameAr: 'منتجات الإحكام والجوانات',
-    tagline: 'جوانات معدنية وغير معدنية ووصلات تمدّد',
-    intro:
-      'مجموعة متكاملة من منتجات الإحكام لمنع التسريب في الوصلات والفلانشات والمعدات، بخامات معدنية وغير معدنية تناسب مختلف الضغوط ودرجات الحرارة.',
+    tagline: {
+      ar: 'جوانات معدنية وغير معدنية ووصلات تمدّد',
+      en: 'Metallic and non-metallic gaskets and expansion joints',
+    },
+    intro: {
+      ar: 'مجموعة متكاملة من منتجات الإحكام لمنع التسريب في الوصلات والفلانشات والمعدات، بخامات معدنية وغير معدنية تناسب مختلف الضغوط ودرجات الحرارة.',
+      en: 'A complete range of sealing products to prevent leakage at joints, flanges and equipment, in metallic and non-metallic materials suited to various pressures and temperatures.',
+    },
     icon: 'seal',
     groups: [
       {
-        title: 'Metallic Gaskets — الجوانات المعدنية',
+        title: { ar: 'الجوانات المعدنية — Metallic Gaskets', en: 'Metallic Gaskets' },
         items: [
           'Spiral Wound Gaskets',
           'Metal Jacketed Gaskets',
@@ -392,21 +495,12 @@ export const PRODUCTS: ProductCategory[] = [
         ],
       },
       {
-        title: 'Non-Metallic Gaskets — الجوانات غير المعدنية',
-        items: [
-          'Gasket Sheets',
-          'Teflon Sheets & Tubes',
-          'Valve Packing',
-          'Graphite / Teflon Tapes',
-        ],
+        title: { ar: 'الجوانات غير المعدنية — Non-Metallic Gaskets', en: 'Non-Metallic Gaskets' },
+        items: ['Gasket Sheets', 'Teflon Sheets & Tubes', 'Valve Packing', 'Graphite / Teflon Tapes'],
       },
       {
-        title: 'Expansion Joints — وصلات التمدّد',
-        items: [
-          'Rubber Expansion Joints',
-          'Metal Expansion Joints',
-          'Copper Expansion Joints',
-        ],
+        title: { ar: 'وصلات التمدّد — Expansion Joints', en: 'Expansion Joints' },
+        items: ['Rubber Expansion Joints', 'Metal Expansion Joints', 'Copper Expansion Joints'],
       },
     ],
   },
@@ -415,13 +509,18 @@ export const PRODUCTS: ProductCategory[] = [
     slug: 'hoses',
     name: 'Hose & Equipment',
     nameAr: 'الخراطيم والمعدات',
-    tagline: 'خراطيم صناعية لكل الوسائط والتطبيقات',
-    intro:
-      'خراطيم صناعية متخصصة لنقل السوائل والغازات والمواد الكيميائية والبخار والوقود، مع المُلحقات والوصلات المناسبة لكل تطبيق.',
+    tagline: {
+      ar: 'خراطيم صناعية لكل الوسائط والتطبيقات',
+      en: 'Industrial hoses for every medium and application',
+    },
+    intro: {
+      ar: 'خراطيم صناعية متخصصة لنقل السوائل والغازات والمواد الكيميائية والبخار والوقود، مع المُلحقات والوصلات المناسبة لكل تطبيق.',
+      en: 'Specialised industrial hoses for transferring liquids, gases, chemicals, steam and fuel, with the accessories and couplings suited to each application.',
+    },
     icon: 'hose',
     groups: [
       {
-        title: 'Hose Range — أنواع الخراطيم',
+        title: { ar: 'أنواع الخراطيم — Hose Range', en: 'Hose Range' },
         items: [
           'Silicone Hose',
           'Oil & Fuel Hose',
@@ -440,13 +539,18 @@ export const PRODUCTS: ProductCategory[] = [
     slug: 'instrumentation',
     name: 'Instrumentation',
     nameAr: 'أجهزة القياس والتحكم',
-    tagline: 'أجهزة قياس الضغط والحرارة والسريان والمستوى',
-    intro:
-      'مجموعة كاملة من أجهزة القياس والتحكّم ومُلحقاتها لخطوط الإنتاج ووحدات المعالجة، من العدادات والمقاييس إلى الصمامات والمُنظّمات ووصلات الأجهزة.',
+    tagline: {
+      ar: 'أجهزة قياس الضغط والحرارة والسريان والمستوى',
+      en: 'Pressure, temperature, flow and level instrumentation',
+    },
+    intro: {
+      ar: 'مجموعة كاملة من أجهزة القياس والتحكّم ومُلحقاتها لخطوط الإنتاج ووحدات المعالجة، من العدادات والمقاييس إلى الصمامات والمُنظّمات ووصلات الأجهزة.',
+      en: 'A complete range of measurement and control instruments and accessories for production lines and process units, from meters and gauges to valves, regulators and instrument fittings.',
+    },
     icon: 'gauge',
     groups: [
       {
-        title: 'Instruments & Accessories — الأجهزة والمُلحقات',
+        title: { ar: 'الأجهزة والمُلحقات — Instruments & Accessories', en: 'Instruments & Accessories' },
         items: [
           'Pressure & Temperature Gauges',
           'Flow Meters',
@@ -466,9 +570,14 @@ export const PRODUCTS: ProductCategory[] = [
     slug: 'chemicals',
     name: 'Chemicals Product List',
     nameAr: 'الكيماويات',
-    tagline: 'أكثر من 250 صنفاً من الكيماويات والمذيبات والراتنجات',
-    intro:
-      'قائمة شاملة من الكيماويات الصناعية والمذيبات والراتنجات والمواد الخافضة للتوتر السطحي والإضافات، نورّدها للمصانع ووحدات المعالجة ومعامل التحاليل. استخدم البحث بالأسفل للوصول السريع إلى الصنف المطلوب.',
+    tagline: {
+      ar: 'أكثر من 220 صنفاً من الكيماويات والمذيبات والراتنجات',
+      en: 'Over 220 chemicals, solvents and resins',
+    },
+    intro: {
+      ar: 'قائمة شاملة من الكيماويات الصناعية والمذيبات والراتنجات والمواد الخافضة للتوتر السطحي والإضافات، نورّدها للمصانع ووحدات المعالجة ومعامل التحاليل. استخدم البحث بالأسفل للوصول السريع إلى الصنف المطلوب.',
+      en: 'A comprehensive list of industrial chemicals, solvents, resins, surfactants and additives supplied to plants, process units and laboratories. Use the search below to quickly find the product you need.',
+    },
     icon: 'chemical',
     groups: [],
   },
@@ -477,13 +586,18 @@ export const PRODUCTS: ProductCategory[] = [
     slug: 'heat-tracing',
     name: 'Heat Trace',
     nameAr: 'أنظمة التتبّع الحراري',
-    tagline: 'كابلات ولوحات ومُلحقات التتبّع الحراري',
-    intro:
-      'أنظمة التتبّع الحراري للحفاظ على درجة حرارة التشغيل في خطوط الأنابيب والأجهزة ومنع التجمّد أو تكثّف المنتج، مع لوحات التحكّم والمُلحقات وأطقم التوصيل الكاملة.',
+    tagline: {
+      ar: 'كابلات ولوحات ومُلحقات التتبّع الحراري',
+      en: 'Heat tracing cables, panels and accessories',
+    },
+    intro: {
+      ar: 'أنظمة التتبّع الحراري للحفاظ على درجة حرارة التشغيل في خطوط الأنابيب والأجهزة ومنع التجمّد أو تكثّف المنتج، مع لوحات التحكّم والمُلحقات وأطقم التوصيل الكاملة.',
+      en: 'Heat tracing systems that maintain operating temperature in pipelines and instruments and prevent freezing or product condensation, with control panels, accessories and complete connection kits.',
+    },
     icon: 'heat',
     groups: [
       {
-        title: 'Heat Tracing System — منظومة التتبّع الحراري',
+        title: { ar: 'منظومة التتبّع الحراري — Heat Tracing System', en: 'Heat Tracing System' },
         items: [
           'Heat Tracing Cables',
           'Heat Tracing Panels',

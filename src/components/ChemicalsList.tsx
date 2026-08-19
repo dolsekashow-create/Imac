@@ -2,8 +2,9 @@
 
 import { useMemo, useState } from 'react'
 import { CHEMICALS, CHEMICALS_COUNT } from '@/data/chemicals'
+import { t, type Locale } from '@/lib/i18n'
 
-export default function ChemicalsList() {
+export default function ChemicalsList({ locale }: { locale: Locale }) {
   const [q, setQ] = useState('')
   const [letter, setLetter] = useState<string | null>(null)
 
@@ -19,8 +20,7 @@ export default function ChemicalsList() {
 
   return (
     <div>
-      {/* البحث */}
-      <div className="sticky top-24 z-10 -mx-1 rounded-sm border border-steel-200 bg-white/95 p-4 backdrop-blur-sm sm:p-5">
+      <div className="sticky top-24 z-10 rounded-sm border border-steel-200 bg-white/95 p-4 backdrop-blur-sm sm:p-5">
         <div className="relative">
           <svg
             viewBox="0 0 24 24"
@@ -28,7 +28,7 @@ export default function ChemicalsList() {
             stroke="currentColor"
             strokeWidth="2"
             strokeLinecap="round"
-            className="pointer-events-none absolute top-1/2 right-4 h-4.5 w-4.5 -translate-y-1/2 text-steel-400"
+            className="pointer-events-none absolute top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-steel-400 start-4"
             aria-hidden
           >
             <circle cx="11" cy="11" r="7" />
@@ -38,9 +38,9 @@ export default function ChemicalsList() {
             type="search"
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="ابحث باسم الصنف… مثال: Toluene أو Glycol"
-            aria-label="البحث في قائمة الكيماويات"
-            className="w-full rounded-sm border border-steel-200 bg-sand-50 py-3.5 pr-12 pl-4 text-[14px] text-steel-800 outline-none transition placeholder:text-steel-400 focus:border-brand-500 focus:bg-white"
+            placeholder={t('chem_search_ph', locale)}
+            aria-label={t('chem_search_label', locale)}
+            className="w-full rounded-sm border border-steel-200 bg-sand-50 py-3.5 text-[14px] text-steel-800 outline-none transition placeholder:text-steel-400 focus:border-brand-500 focus:bg-white ps-12 pe-4"
           />
         </div>
 
@@ -49,10 +49,12 @@ export default function ChemicalsList() {
             type="button"
             onClick={() => setLetter(null)}
             className={`h-8 min-w-8 rounded-sm px-2 text-[12px] font-extrabold transition ${
-              letter === null ? 'bg-brand-700 text-white' : 'bg-steel-100 text-steel-600 hover:bg-brand-100 hover:text-brand-800'
+              letter === null
+                ? 'bg-brand-700 text-white'
+                : 'bg-steel-100 text-steel-600 hover:bg-brand-100 hover:text-brand-800'
             }`}
           >
-            الكل
+            {t('chem_all', locale)}
           </button>
           {CHEMICALS.map((g) => (
             <button
@@ -71,17 +73,14 @@ export default function ChemicalsList() {
         </div>
 
         <p className="mt-4 text-[12.5px] font-semibold text-steel-500">
-          {total} من إجمالي {CHEMICALS_COUNT} صنف
+          {total} {t('chem_of_total', locale)} {CHEMICALS_COUNT} {t('chem_total_suffix', locale)}
         </p>
       </div>
 
-      {/* النتائج */}
       {total === 0 ? (
         <div className="mt-10 rounded-sm border border-dashed border-steel-300 bg-sand-100 p-12 text-center">
-          <p className="text-[15px] font-bold text-steel-700">مفيش نتائج مطابقة لبحثك</p>
-          <p className="mt-2 text-[13.5px] text-steel-500">
-            جرّب كلمة مفتاحية أقصر — أو كلّمنا وهنشوف الصنف المطلوب.
-          </p>
+          <p className="text-[15px] font-bold text-steel-700">{t('chem_none_title', locale)}</p>
+          <p className="mt-2 text-[13.5px] text-steel-500">{t('chem_none_body', locale)}</p>
         </div>
       ) : (
         <div className="mt-8 space-y-9">

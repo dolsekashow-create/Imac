@@ -69,26 +69,38 @@ export function IconPetroServices(p: P) {
 export const SERVICES = [
   {
     key: 'import',
-    title: 'إستيراد',
-    body: 'استيراد الخامات والمعدات من المصانع والموردين المعتمدين حول العالم، مع كل إجراءات الشحن والتخليص.',
+    title: { ar: 'إستيراد', en: 'Import' },
+    body: {
+      ar: 'استيراد الخامات والمعدات من المصانع والموردين المعتمدين حول العالم، مع كل إجراءات الشحن والتخليص.',
+      en: 'Importing materials and equipment from approved mills and suppliers worldwide, including all shipping and clearance procedures.',
+    },
     Icon: IconImport,
   },
   {
     key: 'export',
-    title: 'تصدير',
-    body: 'تصدير المنتجات والخامات المصرية للأسواق الخارجية بمستندات ومواصفات مطابقة لمتطلبات كل سوق.',
+    title: { ar: 'تصدير', en: 'Export' },
+    body: {
+      ar: 'تصدير المنتجات والخامات المصرية للأسواق الخارجية بمستندات ومواصفات مطابقة لمتطلبات كل سوق.',
+      en: 'Exporting Egyptian products and materials to overseas markets with documentation and specifications matching each market.',
+    },
     Icon: IconExport,
   },
   {
     key: 'supplies',
-    title: 'توريدات',
-    body: 'توريد مستلزمات المشروعات والمصانع من قطعة واحدة حتى بلك ماتيريال المشروعات الكبرى.',
+    title: { ar: 'توريدات', en: 'Supplies' },
+    body: {
+      ar: 'توريد مستلزمات المشروعات والمصانع من قطعة واحدة حتى بلك ماتيريال المشروعات الكبرى.',
+      en: 'Supplying project and plant requirements, from a single piece to bulk material for major projects.',
+    },
     Icon: IconSupplies,
   },
   {
     key: 'services',
-    title: 'خدمات بترولية',
-    body: 'دعم فني في اختيار الخامة والمواصفة المناسبة لكل تطبيق، ومتابعة قبل وبعد التوريد.',
+    title: { ar: 'خدمات بترولية', en: 'Petroleum Services' },
+    body: {
+      ar: 'دعم فني في اختيار الخامة والمواصفة المناسبة لكل تطبيق، ومتابعة قبل وبعد التوريد.',
+      en: 'Technical support selecting the right material and specification for each application, with follow-up before and after supply.',
+    },
     Icon: IconPetroServices,
   },
 ] as const

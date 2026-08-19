@@ -1,18 +1,20 @@
+import type { L, Locale, TKey } from './i18n'
+
 /** بيانات الشركة الأساسية — مصدر واحد لكل الموقع */
 export const SITE = {
-  name: 'إيماك للإستيراد والتصدير والتوريدات',
-  shortName: 'إيماك',
+  name: {
+    ar: 'إيماك للإستيراد والتصدير والتوريدات',
+    en: 'IMAC for Import & Export and Supplies',
+  } as L,
+  shortName: { ar: 'إيماك', en: 'IMAC' } as L,
+  tagline: { ar: 'خدمات بترولية متكاملة', en: 'Integrated Petroleum Services' } as L,
+  description: {
+    ar: 'إيماك للإستيراد والتصدير والتوريدات — توريد مستلزمات وقطع غيار صناعة البترول والغاز والبتروكيماويات: مواسير ووصلات وفلانشات، محابس، مصائد بخار، منتجات إحكام، أقراص أمان، كيماويات، أجهزة قياس وتتبع حراري، ومعدات نقل الكتلة.',
+    en: 'IMAC for Import & Export and Supplies — supplier of oil, gas and petrochemical materials: pipes and fittings, flanges, tubes, valves, steam traps, rupture discs, sealing products, chemicals, instrumentation and heat tracing.',
+  } as L,
   nameEn: 'IMAC for Import & Export and Supplies',
-  shortNameEn: 'IMAC',
-  tagline: 'خدمات بترولية متكاملة',
-  taglineEn: 'Integrated Petroleum Services',
   url: 'https://www.imac-eg.com',
-  description:
-    'إيماك للإستيراد والتصدير والتوريدات — توريد مستلزمات وقطع غيار صناعة البترول والغاز والبتروكيماويات: مواسير ووصلات وفلانشات، محابس، مصائد بخار، منتجات إحكام، أقراص أمان، كيماويات، أجهزة قياس وتتبع حراري، ومعدات نقل الكتلة.',
-  descriptionEn:
-    'IMAC for Import & Export and Supplies — supplier of oil, gas and petrochemical materials: pipes and fittings, flanges, tubes, valves, steam traps, rupture discs, sealing products, chemicals, instrumentation and heat tracing.',
-  locale: 'ar_EG',
-  foundedYear: 2015,
+  foundedYear: 2023,
 } as const
 
 /** أرقام الهاتف */
@@ -36,24 +38,28 @@ export const EMAIL = 'ismail.imacps@gmail.com'
 
 /** العنوان */
 export const ADDRESS = {
-  ar: 'محلة دياي — بجوار المجمع المدرسي، دسوق، كفر الشيخ، جمهورية مصر العربية',
-  en: 'Mehallet Deyay, near to schools complex, Disuq, Kafr El-Sheikh, Egypt',
-  city: 'دسوق',
-  governorate: 'كفر الشيخ',
+  full: {
+    ar: 'محلة دياي — بجوار المجمع المدرسي، دسوق، كفر الشيخ، جمهورية مصر العربية',
+    en: 'Mehallet Deyay, near to schools complex, Disuq, Kafr El-Sheikh, Egypt',
+  } as L,
+  short: { ar: 'دسوق — كفر الشيخ', en: 'Disuq — Kafr El-Sheikh' } as L,
   mapQuery: 'Mehallet+Deyay,+Disuq,+Kafr+El+Sheikh,+Egypt',
 } as const
 
 export const MAP_URL = `https://www.google.com/maps/search/?api=1&query=${ADDRESS.mapQuery}`
 export const MAP_EMBED_URL = `https://maps.google.com/maps?q=${ADDRESS.mapQuery}&z=13&output=embed`
 
-/** روابط القائمة الرئيسية */
-export const NAV = [
-  { href: '/', label: 'الرئيسية' },
-  { href: '/about', label: 'من نحن' },
-  { href: '/clients', label: 'عملاؤنا' },
-  { href: '/products', label: 'منتجاتنا' },
-  { href: '/contact', label: 'اتصل بنا' },
-] as const
+/** مسار ملف البروشور */
+export const BROCHURE_PDF = '/imac-brochure.pdf'
+
+/** روابط القائمة الرئيسية — المسار بدون بادئة اللغة */
+export const NAV: { path: string; key: TKey }[] = [
+  { path: '/', key: 'nav_home' },
+  { path: '/about', key: 'nav_about' },
+  { path: '/clients', key: 'nav_clients' },
+  { path: '/products', key: 'nav_products' },
+  { path: '/contact', key: 'nav_contact' },
+]
 
 /** رابط واتساب مع رسالة جاهزة */
 export function whatsappLink(message?: string) {
@@ -66,3 +72,25 @@ export function quoteMailto(subject: string, body = '') {
   if (body) params.set('body', body)
   return `mailto:${EMAIL}?${params.toString().replace(/\+/g, '%20')}`
 }
+
+/** رسائل واتساب جاهزة حسب اللغة */
+export const WA_MSG = {
+  general: {
+    ar: 'السلام عليكم، حابب أستفسر عن منتجاتكم',
+    en: 'Hello, I would like to enquire about your products',
+  } as L,
+  quote: {
+    ar: 'السلام عليكم، حابب أطلب عرض سعر',
+    en: 'Hello, I would like to request a quotation',
+  } as L,
+  item: {
+    ar: 'السلام عليكم، محتاج أستفسر عن صنف معيّن',
+    en: 'Hello, I need to enquire about a specific item',
+  } as L,
+  vendor: {
+    ar: 'السلام عليكم، حابب أضيف شركتكم لقائمة الموردين',
+    en: 'Hello, I would like to add your company to our vendor list',
+  } as L,
+}
+
+export const waMsg = (k: keyof typeof WA_MSG, l: Locale) => whatsappLink(WA_MSG[k][l])

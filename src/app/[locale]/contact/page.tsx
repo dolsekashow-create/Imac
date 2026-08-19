@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
 import QuoteForm from '@/components/QuoteForm'
 import Reveal from '@/components/Reveal'
 import { Container, PageHero } from '@/components/ui'
@@ -11,42 +12,52 @@ import {
   ADDRESS,
   MAP_URL,
   MAP_EMBED_URL,
-  whatsappLink,
-  SITE,
+  waMsg,
 } from '@/lib/site'
+import { isLocale, t, tx, type Locale } from '@/lib/i18n'
 
-export const metadata: Metadata = {
-  title: 'اتصل بنا',
-  description: `تواصل مع ${SITE.name} — تليفون ${PHONES[0].display} و${PHONES[1].display}، واتساب ${WHATSAPP.display}، بريد ${EMAIL}. العنوان: ${ADDRESS.ar}`,
-  alternates: { canonical: '/contact' },
+type Props = { params: Promise<{ locale: string }> }
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale: raw } = await params
+  const locale: Locale = isLocale(raw) ? raw : 'ar'
+  return {
+    title: t('nav_contact', locale),
+    description: `${t('contact_hero_sub', locale)} — ${PHONES[0].display} / ${PHONES[1].display} — ${EMAIL}`,
+    alternates: { canonical: `/${locale}/contact` },
+  }
 }
 
-export default function ContactPage() {
+export default async function ContactPage({ params }: Props) {
+  const { locale: raw } = await params
+  if (!isLocale(raw)) notFound()
+  const locale: Locale = raw
+
   return (
     <>
       <PageHero
-        title="اتصل بنا"
-        sub="ابعتلنا قائمة الأصناف أو المواصفة المطلوبة، وهنرد عليك بعرض سعر مُفصّل ومدة التوريد."
-        crumb={[{ label: 'اتصل بنا' }]}
+        locale={locale}
+        title={t('nav_contact', locale)}
+        sub={t('contact_hero_sub', locale)}
+        crumb={[{ label: t('nav_contact', locale) }]}
       />
 
-      {/* وسائل التواصل */}
       <section className="bg-white py-16 sm:py-20">
         <Container>
           <div className="grid gap-px overflow-hidden rounded-sm bg-steel-200 sm:grid-cols-2 lg:grid-cols-4">
             <ContactCard
-              label="تليفون"
+              label={t('contact_phone', locale)}
               icon={<IconPhone />}
               items={PHONES.map((p) => ({ text: p.display, href: `tel:${p.tel}` }))}
             />
             <ContactCard
-              label="واتساب"
+              label={t('contact_whatsapp', locale)}
               icon={<IconWa />}
-              items={[{ text: WHATSAPP.display, href: whatsappLink('السلام عليكم، حابب أستفسر عن منتجاتكم'), external: true }]}
+              items={[{ text: WHATSAPP.display, href: waMsg('general', locale), external: true }]}
             />
-            <ContactCard label="فاكس" icon={<IconFax />} items={FAXES.map((f) => ({ text: f.display }))} />
+            <ContactCard label={t('contact_fax', locale)} icon={<IconFax />} items={FAXES.map((f) => ({ text: f.display }))} />
             <ContactCard
-              label="البريد الإلكتروني"
+              label={t('contact_email', locale)}
               icon={<IconMail />}
               items={[{ text: EMAIL, href: `mailto:${EMAIL}` }]}
               small
@@ -55,37 +66,33 @@ export default function ContactPage() {
         </Container>
       </section>
 
-      {/* النموذج والعنوان */}
       <section className="bg-sand-100 py-16 sm:py-24">
         <Container>
           <div className="grid gap-10 lg:grid-cols-12">
             <Reveal className="lg:col-span-7">
-              <QuoteForm />
+              <QuoteForm locale={locale} />
             </Reveal>
 
             <Reveal delay={140} className="lg:col-span-5">
               <div className="space-y-6">
                 <div className="rounded-sm border border-steel-200 bg-white p-7">
-                  <h2 className="text-xl font-extrabold text-steel-900">العنوان</h2>
+                  <h2 className="text-xl font-extrabold text-steel-900">{t('contact_address', locale)}</h2>
                   <div className="rule-brand mt-4" />
-                  <p className="mt-5 text-[14.5px] leading-9 text-steel-600">{ADDRESS.ar}</p>
-                  <p className="mt-3 text-left text-[13px] leading-8 text-steel-500" dir="ltr">
-                    {ADDRESS.en}
-                  </p>
-                  <a
-                    href={MAP_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-ghost mt-6 w-full"
-                  >
-                    فتح الموقع على الخريطة
+                  <p className="mt-5 text-[14.5px] leading-9 text-steel-600">{tx(ADDRESS.full, locale)}</p>
+                  {locale === 'ar' && (
+                    <p className="mt-3 text-left text-[13px] leading-8 text-steel-500" dir="ltr">
+                      {ADDRESS.full.en}
+                    </p>
+                  )}
+                  <a href={MAP_URL} target="_blank" rel="noopener noreferrer" className="btn-ghost mt-6 w-full">
+                    {t('contact_open_map', locale)}
                   </a>
                 </div>
 
                 <div className="overflow-hidden rounded-sm border border-steel-200 bg-white">
                   <iframe
                     src={MAP_EMBED_URL}
-                    title={`موقع ${SITE.shortName} على الخريطة`}
+                    title={t('contact_map_title', locale)}
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
                     className="h-72 w-full border-0"
@@ -93,23 +100,21 @@ export default function ContactPage() {
                 </div>
 
                 <div className="rounded-sm bg-steel-950 p-7 text-white">
-                  <h2 className="text-[15px] font-extrabold">مواعيد العمل</h2>
+                  <h2 className="text-[15px] font-extrabold">{t('contact_hours', locale)}</h2>
                   <span className="mt-3 block h-0.5 w-9 bg-brand-600" />
                   <ul className="mt-5 space-y-3 text-[13.5px]">
                     <li className="flex items-center justify-between border-b border-white/10 pb-3">
-                      <span className="text-steel-400">السبت — الخميس</span>
+                      <span className="text-steel-400">{t('contact_days', locale)}</span>
                       <span className="font-bold" dir="ltr">
                         9:00 — 17:00
                       </span>
                     </li>
                     <li className="flex items-center justify-between">
-                      <span className="text-steel-400">الجمعة</span>
-                      <span className="font-bold text-brand-300">إجازة</span>
+                      <span className="text-steel-400">{t('contact_friday', locale)}</span>
+                      <span className="font-bold text-brand-300">{t('contact_closed', locale)}</span>
                     </li>
                   </ul>
-                  <p className="mt-5 text-[12.5px] leading-7 text-steel-500">
-                    الاستفسارات العاجلة على الواتساب بتتابع خارج المواعيد.
-                  </p>
+                  <p className="mt-5 text-[12.5px] leading-7 text-steel-500">{t('contact_hours_note', locale)}</p>
                 </div>
               </div>
             </Reveal>
@@ -117,13 +122,12 @@ export default function ContactPage() {
         </Container>
       </section>
 
-      {/* شريط سفلي */}
       <section className="relative overflow-hidden bg-brand-700 py-14">
         <DiagonalLines className="absolute inset-0 text-white/[0.06]" />
         <Container className="relative">
-          <div className="flex flex-col items-center justify-between gap-6 text-center lg:flex-row lg:text-right">
+          <div className="flex flex-col items-center justify-between gap-6 text-center lg:flex-row lg:text-start">
             <h2 className="text-xl leading-[1.6] font-extrabold text-white sm:text-2xl">
-              محتاج ترد بسرعة؟ كلّمنا على طول
+              {t('contact_fast_title', locale)}
             </h2>
             <div className="flex flex-wrap items-center justify-center gap-3">
               {PHONES.map((p) => (
@@ -175,10 +179,7 @@ function ContactCard({
               {it.text}
             </a>
           ) : (
-            <span
-              key={it.text}
-              className={`block text-left font-extrabold text-steel-900 ${small ? 'text-[13px]' : 'text-[15px]'}`}
-            >
+            <span key={it.text} className={`block text-left font-extrabold text-steel-900 ${small ? 'text-[13px]' : 'text-[15px]'}`}>
               {it.text}
             </span>
           ),

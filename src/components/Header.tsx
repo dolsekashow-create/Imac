@@ -4,15 +4,18 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { NAV, PHONES, EMAIL, SITE, WHATSAPP, whatsappLink } from '@/lib/site'
-import { PRODUCTS } from '@/data/products'
+import { NAV, PHONES, EMAIL, WHATSAPP, waMsg } from '@/lib/site'
+import { PRODUCTS, productName } from '@/data/products'
+import { href, switchLocaleHref, t, tx, type Locale } from '@/lib/i18n'
 import ProductIcon from './ProductIcons'
+import { ADDRESS } from '@/lib/site'
 
-export default function Header() {
+export default function Header({ locale }: { locale: Locale }) {
   const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const [menuProducts, setMenuProducts] = useState(false)
+  const other: Locale = locale === 'ar' ? 'en' : 'ar'
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
@@ -36,8 +39,10 @@ export default function Header() {
     }
   }, [open])
 
-  const isActive = (href: string) =>
-    href === '/' ? pathname === '/' : pathname.startsWith(href)
+  const isActive = (path: string) => {
+    const full = href(path, locale)
+    return path === '/' ? pathname === full : pathname.startsWith(full)
+  }
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
@@ -56,12 +61,12 @@ export default function Header() {
             <span className="h-3 w-px bg-steel-700" />
             <span className="flex items-center gap-2">
               <IconPin className="h-3.5 w-3.5" />
-              دسوق — كفر الشيخ
+              {tx(ADDRESS.short, locale)}
             </span>
           </div>
           <div className="flex items-center gap-5" dir="ltr">
             <a
-              href={whatsappLink('السلام عليكم، حابب أستفسر عن منتجاتكم')}
+              href={waMsg('general', locale)}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 transition hover:text-brand-300"
@@ -87,62 +92,63 @@ export default function Header() {
             : 'border-white/10 bg-white/95 backdrop-blur-md lg:border-transparent lg:bg-white/90'
         }`}
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 sm:px-8">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-5 sm:px-8">
           {/* اللوجو */}
-          <Link href="/" className="flex shrink-0 items-center gap-3 py-2.5">
+          <Link href={href('/', locale)} className="flex shrink-0 items-center gap-3 py-2.5">
             <Image
               src="/images/imac-mark.png"
-              alt={SITE.name}
+              alt={t('brand_full', locale)}
               width={896}
               height={727}
               priority
               className={`w-auto transition-all duration-300 ${scrolled ? 'h-11 sm:h-12' : 'h-13 sm:h-15'}`}
             />
-            <span className="hidden border-r border-steel-200 pr-3 leading-tight sm:block">
-              <span className="block text-[15px] font-extrabold text-steel-900">إيماك</span>
-              <span className="block text-[11px] font-medium text-brand-700">خدمات بترولية متكاملة</span>
+            <span className="hidden border-steel-200 leading-tight sm:block sm:border-s sm:ps-3">
+              <span className="block text-[15px] font-extrabold text-steel-900">
+                {t('brand_short', locale)}
+              </span>
+              <span className="block text-[11px] font-medium text-brand-700">
+                {t('brand_tagline', locale)}
+              </span>
             </span>
           </Link>
 
           {/* قائمة سطح المكتب */}
-          <nav className="hidden items-center gap-1 lg:flex">
+          <nav className="hidden items-center gap-0.5 lg:flex">
             {NAV.map((item) =>
-              item.href === '/products' ? (
+              item.path === '/products' ? (
                 <div
-                  key={item.href}
+                  key={item.path}
                   className="relative"
                   onMouseEnter={() => setMenuProducts(true)}
                   onMouseLeave={() => setMenuProducts(false)}
                 >
                   <Link
-                    href={item.href}
-                    className={`flex items-center gap-1.5 px-4 py-6 text-[14px] font-bold transition ${
-                      isActive(item.href) ? 'text-brand-700' : 'text-steel-700 hover:text-brand-700'
+                    href={href(item.path, locale)}
+                    className={`flex items-center gap-1.5 px-3.5 py-6 text-[14px] font-bold transition ${
+                      isActive(item.path) ? 'text-brand-700' : 'text-steel-700 hover:text-brand-700'
                     }`}
                   >
-                    {item.label}
+                    {t(item.key, locale)}
                     <IconChevron className={`h-3 w-3 transition-transform ${menuProducts ? 'rotate-180' : ''}`} />
                   </Link>
                   <span
-                    className={`absolute inset-x-4 bottom-4 h-0.5 origin-right bg-brand-700 transition-transform duration-300 ${
-                      isActive(item.href) ? 'scale-x-100' : 'scale-x-0'
+                    className={`absolute inset-x-3.5 bottom-4 h-0.5 origin-center bg-brand-700 transition-transform duration-300 ${
+                      isActive(item.path) ? 'scale-x-100' : 'scale-x-0'
                     }`}
                   />
 
-                  {/* القائمة المنسدلة */}
                   <div
                     className={`absolute top-full left-1/2 w-[820px] -translate-x-1/2 transition-all duration-200 ${
-                      menuProducts
-                        ? 'visible translate-y-0 opacity-100'
-                        : 'invisible -translate-y-2 opacity-0'
+                      menuProducts ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-2 opacity-0'
                     }`}
                   >
-                    <div className="mt-0 rounded-sm border border-steel-200 bg-white p-3 shadow-2xl shadow-steel-900/10">
+                    <div className="rounded-sm border border-steel-200 bg-white p-3 shadow-2xl shadow-steel-900/10">
                       <div className="grid grid-cols-3 gap-1">
                         {PRODUCTS.map((p) => (
                           <Link
                             key={p.slug}
-                            href={`/products/${p.slug}`}
+                            href={href(`/products/${p.slug}`, locale)}
                             className="group flex items-start gap-3 rounded-sm p-3 transition hover:bg-sand-100"
                           >
                             <span className="mt-0.5 text-brand-600 transition group-hover:text-brand-800">
@@ -150,35 +156,36 @@ export default function Header() {
                             </span>
                             <span className="min-w-0">
                               <span className="block truncate text-[13.5px] font-bold text-steel-800 group-hover:text-brand-800">
-                                {p.nameAr}
+                                {productName(p, locale)}
                               </span>
-                              <span className="block truncate text-[11px] text-steel-500">{p.name}</span>
+                              <span className="block truncate text-[11px] text-steel-500">
+                                {locale === 'ar' ? p.name : tx(p.tagline, locale).slice(0, 34)}
+                              </span>
                             </span>
                           </Link>
                         ))}
                       </div>
                       <Link
-                        href="/products"
+                        href={href('/products', locale)}
                         className="mt-2 flex items-center justify-center gap-2 rounded-sm bg-steel-900 px-4 py-3 text-[13px] font-bold text-white transition hover:bg-brand-800"
                       >
-                        عرض كل فئات المنتجات
-                        <IconArrow className="h-3.5 w-3.5" />
+                        {t('cta_all_categories', locale)}
                       </Link>
                     </div>
                   </div>
                 </div>
               ) : (
                 <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`relative px-4 py-6 text-[14px] font-bold transition ${
-                    isActive(item.href) ? 'text-brand-700' : 'text-steel-700 hover:text-brand-700'
+                  key={item.path}
+                  href={href(item.path, locale)}
+                  className={`relative px-3.5 py-6 text-[14px] font-bold transition ${
+                    isActive(item.path) ? 'text-brand-700' : 'text-steel-700 hover:text-brand-700'
                   }`}
                 >
-                  {item.label}
+                  {t(item.key, locale)}
                   <span
-                    className={`absolute inset-x-4 bottom-4 h-0.5 origin-right bg-brand-700 transition-transform duration-300 ${
-                      isActive(item.href) ? 'scale-x-100' : 'scale-x-0'
+                    className={`absolute inset-x-3.5 bottom-4 h-0.5 origin-center bg-brand-700 transition-transform duration-300 ${
+                      isActive(item.path) ? 'scale-x-100' : 'scale-x-0'
                     }`}
                   />
                 </Link>
@@ -187,38 +194,37 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <a
-              href={`tel:${PHONES[0].tel}`}
+            {/* تبديل اللغة */}
+            <Link
+              href={switchLocaleHref(pathname, other)}
+              hrefLang={other}
+              aria-label={t('lang_switch_label', locale)}
+              title={t('lang_switch_label', locale)}
+              className="flex h-11 items-center gap-2 rounded-sm border border-steel-200 px-3 text-[13px] font-bold text-steel-700 transition hover:border-brand-500 hover:bg-brand-50 hover:text-brand-700"
+            >
+              <IconGlobe className="h-4.5 w-4.5" />
+              <span>{t('lang_switch', locale)}</span>
+            </Link>
+
+            <Link
+              href={href('/contact', locale)}
               className="hidden items-center gap-2 rounded-sm bg-brand-700 px-5 py-3 text-[13px] font-bold text-white transition hover:bg-brand-800 lg:flex"
             >
               <IconPhone className="h-4 w-4" />
-              اطلب عرض سعر
-            </a>
+              {t('cta_quote', locale)}
+            </Link>
 
-            {/* زر القائمة للموبايل */}
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}
-              aria-label={open ? 'إغلاق القائمة' : 'فتح القائمة'}
+              aria-label={open ? t('menu_close', locale) : t('menu_open', locale)}
               aria-expanded={open}
               className="flex h-11 w-11 items-center justify-center rounded-sm border border-steel-200 text-steel-800 transition hover:border-brand-500 hover:text-brand-700 lg:hidden"
             >
               <span className="relative block h-4 w-5">
-                <span
-                  className={`absolute inset-x-0 top-0 h-0.5 bg-current transition-all duration-300 ${
-                    open ? 'top-1.5 rotate-45' : ''
-                  }`}
-                />
-                <span
-                  className={`absolute inset-x-0 top-1.5 h-0.5 bg-current transition-all duration-300 ${
-                    open ? 'opacity-0' : ''
-                  }`}
-                />
-                <span
-                  className={`absolute inset-x-0 top-3 h-0.5 bg-current transition-all duration-300 ${
-                    open ? 'top-1.5 -rotate-45' : ''
-                  }`}
-                />
+                <span className={`absolute inset-x-0 top-0 h-0.5 bg-current transition-all duration-300 ${open ? 'top-1.5 rotate-45' : ''}`} />
+                <span className={`absolute inset-x-0 top-1.5 h-0.5 bg-current transition-all duration-300 ${open ? 'opacity-0' : ''}`} />
+                <span className={`absolute inset-x-0 top-3 h-0.5 bg-current transition-all duration-300 ${open ? 'top-1.5 -rotate-45' : ''}`} />
               </span>
             </button>
           </div>
@@ -233,29 +239,37 @@ export default function Header() {
       >
         <nav className="px-5 py-6">
           {NAV.map((item) => (
-            <div key={item.href} className="border-b border-steel-100">
+            <div key={item.path} className="border-b border-steel-100">
               <Link
-                href={item.href}
+                href={href(item.path, locale)}
                 className={`flex items-center justify-between py-4 text-base font-bold ${
-                  isActive(item.href) ? 'text-brand-700' : 'text-steel-800'
+                  isActive(item.path) ? 'text-brand-700' : 'text-steel-800'
                 }`}
               >
-                {item.label}
-                <IconArrow className="h-4 w-4 text-steel-400" />
+                {t(item.key, locale)}
+                <IconArrowEnd className="h-4 w-4 text-steel-400" />
               </Link>
             </div>
           ))}
+          <div className="border-b border-steel-100">
+            <Link href={href('/brochure', locale)} className="flex items-center justify-between py-4 text-base font-bold text-steel-800">
+              {t('nav_brochure', locale)}
+              <IconArrowEnd className="h-4 w-4 text-steel-400" />
+            </Link>
+          </div>
 
-          <p className="mt-7 mb-3 text-xs font-bold tracking-[0.2em] text-brand-600">فئات المنتجات</p>
+          <p className="mt-7 mb-3 text-xs font-bold tracking-[0.2em] text-brand-600">
+            {t('product_categories', locale)}
+          </p>
           <div className="grid grid-cols-1 gap-1 sm:grid-cols-2">
             {PRODUCTS.map((p) => (
               <Link
                 key={p.slug}
-                href={`/products/${p.slug}`}
+                href={href(`/products/${p.slug}`, locale)}
                 className="flex items-center gap-3 rounded-sm border border-steel-100 p-3 text-[13.5px] font-semibold text-steel-700"
               >
                 <ProductIcon name={p.icon} className="h-5 w-5 shrink-0 text-brand-600" />
-                <span className="truncate">{p.nameAr}</span>
+                <span className="truncate">{productName(p, locale)}</span>
               </Link>
             ))}
           </div>
@@ -272,13 +286,13 @@ export default function Header() {
               </a>
             ))}
             <a
-              href={whatsappLink('السلام عليكم، حابب أستفسر عن منتجاتكم')}
+              href={waMsg('general', locale)}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 rounded-sm bg-steel-900 px-5 py-3.5 text-sm font-bold text-white"
             >
               <IconWhatsApp className="h-4 w-4" />
-              واتساب
+              {t('cta_whatsapp', locale)}
             </a>
           </div>
         </nav>
@@ -289,6 +303,15 @@ export default function Header() {
 
 /* ------------------------------- أيقونات ------------------------------- */
 
+export function IconGlobe(p: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden {...p}>
+      <circle cx="12" cy="12" r="9.2" />
+      <path d="M3 12h18" />
+      <ellipse cx="12" cy="12" rx="4" ry="9.2" />
+    </svg>
+  )
+}
 function IconPhone(p: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden {...p}>
@@ -319,10 +342,10 @@ function IconChevron(p: { className?: string }) {
     </svg>
   )
 }
-function IconArrow(p: { className?: string }) {
+function IconArrowEnd(p: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden {...p}>
-      <path d="M19 12H5M12 19l-7-7 7-7" />
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden className={`${p.className ?? ''} rtl:-scale-x-100`}>
+      <path d="M5 12h14M12 5l7 7-7 7" />
     </svg>
   )
 }

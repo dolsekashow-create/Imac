@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { STATS } from '@/data/content'
+import { tx, type Locale } from '@/lib/i18n'
 import { IndustrialSkyline, DiagonalLines } from './IndustrialArt'
 
 function useCountUp(target: number, run: boolean, ms = 1600) {
@@ -12,7 +13,6 @@ function useCountUp(target: number, run: boolean, ms = 1600) {
     const start = performance.now()
     const tick = (now: number) => {
       const t = Math.min(1, (now - start) / ms)
-      // تسارع ثم تباطؤ
       const eased = 1 - Math.pow(1 - t, 3)
       setN(Math.round(target * eased))
       if (t < 1) raf = requestAnimationFrame(tick)
@@ -28,9 +28,7 @@ function Stat({ value, suffix, label, run }: { value: number; suffix: string; la
   return (
     <div className="relative px-4 text-center">
       <div className="flex items-end justify-center gap-1 text-4xl leading-none font-extrabold text-white sm:text-5xl">
-        <span dir="ltr" className="tabular-nums">
-          {n}
-        </span>
+        <span dir="ltr" className="tabular-nums">{n}</span>
         {suffix && <span className="text-brand-400">{suffix}</span>}
       </div>
       <div className="mx-auto mt-4 h-0.5 w-8 bg-brand-500" />
@@ -39,7 +37,7 @@ function Stat({ value, suffix, label, run }: { value: number; suffix: string; la
   )
 }
 
-export default function Counters() {
+export default function Counters({ locale }: { locale: Locale }) {
   const ref = useRef<HTMLElement>(null)
   const [run, setRun] = useState(false)
 
@@ -71,12 +69,10 @@ export default function Counters() {
       <div className="relative mx-auto grid max-w-7xl grid-cols-2 gap-y-12 px-5 sm:px-8 lg:grid-cols-4">
         {STATS.map((s, i) => (
           <div
-            key={s.label}
-            className={`${i % 2 === 1 ? 'border-r border-white/10' : ''} ${
-              i > 0 ? 'lg:border-r lg:border-white/10' : ''
-            }`}
+            key={s.label.en}
+            className={`${i % 2 === 1 ? 'border-e border-white/10' : ''} ${i > 0 ? 'lg:border-e lg:border-white/10' : ''}`}
           >
-            <Stat {...s} run={run} />
+            <Stat value={s.value} suffix={s.suffix} label={tx(s.label, locale)} run={run} />
           </div>
         ))}
       </div>
