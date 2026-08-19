@@ -590,22 +590,6 @@ export const PRODUCTS: ProductCategory[] = [
   },
 
   {
-    slug: 'chemicals',
-    name: 'Chemicals Product List',
-    nameAr: 'الكيماويات',
-    tagline: {
-      ar: 'أكثر من 220 صنفاً من الكيماويات والمذيبات والراتنجات',
-      en: 'Over 220 chemicals, solvents and resins',
-    },
-    intro: {
-      ar: 'قائمة شاملة من الكيماويات الصناعية والمذيبات والراتنجات والمواد الخافضة للتوتر السطحي والإضافات، نورّدها للمصانع ووحدات المعالجة ومعامل التحاليل. استخدم البحث بالأسفل للوصول السريع إلى الصنف المطلوب.',
-      en: 'A comprehensive list of industrial chemicals, solvents, resins, surfactants and additives supplied to plants, process units and laboratories. Use the search below to quickly find the product you need.',
-    },
-    icon: 'chemical',
-    groups: [],
-  },
-
-  {
     slug: 'heat-tracing',
     name: 'Heat Trace',
     nameAr: 'أنظمة التتبّع الحراري',
@@ -630,6 +614,22 @@ export const PRODUCTS: ProductCategory[] = [
         ],
       },
     ],
+  },
+
+  {
+    slug: 'chemicals',
+    name: 'Chemicals Product List',
+    nameAr: 'الكيماويات',
+    tagline: {
+      ar: 'أكثر من 220 صنفاً من الكيماويات والمذيبات والراتنجات',
+      en: 'Over 220 chemicals, solvents and resins',
+    },
+    intro: {
+      ar: 'قائمة شاملة من الكيماويات الصناعية والمذيبات والراتنجات والمواد الخافضة للتوتر السطحي والإضافات، نورّدها للمصانع ووحدات المعالجة ومعامل التحاليل. استخدم البحث بالأسفل للوصول السريع إلى الصنف المطلوب.',
+      en: 'A comprehensive list of industrial chemicals, solvents, resins, surfactants and additives supplied to plants, process units and laboratories. Use the search below to quickly find the product you need.',
+    },
+    icon: 'chemical',
+    groups: [],
   },
 ]
 

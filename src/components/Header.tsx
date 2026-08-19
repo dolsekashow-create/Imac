@@ -101,7 +101,7 @@ export default function Header({ locale }: { locale: Locale }) {
               width={896}
               height={727}
               priority
-              className={`w-auto transition-all duration-300 ${scrolled ? 'h-11 sm:h-12' : 'h-13 sm:h-15'}`}
+              className={`w-auto transition-all duration-300 ${scrolled ? 'h-14' : 'h-18'}`}
             />
             <span className="hidden border-steel-200 leading-tight sm:block sm:border-s sm:ps-3">
               <span className="block text-[15px] font-extrabold text-steel-900">
@@ -231,7 +231,7 @@ export default function Header({ locale }: { locale: Locale }) {
 
       {/* قائمة الموبايل */}
       <div
-        className={`fixed inset-0 top-[68px] z-40 overflow-y-auto bg-white transition-all duration-300 lg:hidden ${
+        className={`absolute inset-x-0 top-full z-40 h-[calc(100dvh-100%)] overflow-y-auto bg-white transition-all duration-300 lg:hidden ${
           open ? 'visible opacity-100' : 'invisible opacity-0'
         }`}
       >

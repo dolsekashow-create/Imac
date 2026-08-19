@@ -34,7 +34,7 @@ export default function Footer({ locale }: { locale: Locale }) {
               alt={tx(SITE.name, locale)}
               width={920}
               height={1127}
-              className="h-28 w-auto"
+              className="h-32 w-auto"
             />
           </Link>
           <p className="mt-6 text-[14px] leading-8">
