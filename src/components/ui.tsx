@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { IndustrialSkyline, DotGrid } from './IndustrialArt'
 import { href, t, type Locale } from '@/lib/i18n'
@@ -58,24 +59,44 @@ export function SectionHeading({
   )
 }
 
-/** بانر أعلى الصفحات الداخلية */
+/** صور البانر المتاحة للصفحات الداخلية */
+export const HERO_IMAGES = {
+  refinery: '/images/hero-refinery.jpg',
+  rig: '/images/hero-rig.jpg',
+} as const
+
+/** بانر أعلى الصفحات الداخلية — بنفس صور الهيرو بتاعة الرئيسية */
 export function PageHero({
   locale,
   title,
   sub,
   crumb,
+  image = HERO_IMAGES.refinery,
 }: {
   locale: Locale
   title: string
   sub?: string
   crumb?: { label: string; path?: string }[]
+  image?: string
 }) {
   return (
     <section className="relative overflow-hidden bg-steel-900 pt-36 pb-20 sm:pt-44 sm:pb-24">
-      <div className="absolute inset-0 bg-linear-to-l from-steel-950 via-steel-900 to-brand-950" />
-      <DotGrid className="absolute inset-0 text-white/[0.07]" />
-      <IndustrialSkyline className="pointer-events-none absolute inset-x-0 bottom-0 h-52 w-full text-brand-300/25 sm:h-64" />
-      <div className="absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-steel-950 to-transparent" />
+      {/* الصورة الخلفية */}
+      <Image
+        src={image}
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover object-center"
+      />
+
+      {/* طبقات التعتيم علشان النص يفضل واضح */}
+      <div className="absolute inset-0 bg-steel-950/65" />
+      <div className="absolute inset-0 bg-linear-to-l from-steel-950/95 via-steel-950/75 to-steel-950/45" />
+      <DotGrid className="absolute inset-0 text-white/[0.05]" />
+      <IndustrialSkyline className="pointer-events-none absolute inset-x-0 bottom-0 h-52 w-full text-brand-200/20 sm:h-64" />
+      <div className="absolute inset-x-0 bottom-0 h-28 bg-linear-to-t from-steel-950 via-steel-950/70 to-transparent" />
 
       <Container className="relative">
         {crumb && (

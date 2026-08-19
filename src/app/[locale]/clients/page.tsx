@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import Counters from '@/components/Counters'
 import Reveal from '@/components/Reveal'
-import { Container, SectionHeading, PageHero, Card, ArrowIcon } from '@/components/ui'
+import { Container, SectionHeading, PageHero, Card, ArrowIcon, HERO_IMAGES } from '@/components/ui'
 import { DotGrid, DiagonalLines, IndustrialSkyline } from '@/components/IndustrialArt'
 import { SECTORS, CLIENT_PROMISE, CLIENT_LOGOS, COMMITMENTS } from '@/data/content'
 import { PHONES, EMAIL, waMsg } from '@/lib/site'
@@ -34,6 +34,7 @@ export default async function ClientsPage({ params }: Props) {
         title={t('nav_clients', locale)}
         sub={t('clients_hero_sub', locale)}
         crumb={[{ label: t('nav_clients', locale) }]}
+        image={HERO_IMAGES.rig}
       />
 
       <section className="bg-white py-20 sm:py-28">

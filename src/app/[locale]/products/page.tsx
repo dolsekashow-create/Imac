@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import Reveal from '@/components/Reveal'
 import ProductIcon from '@/components/ProductIcons'
-import { Container, SectionHeading, PageHero, ArrowIcon } from '@/components/ui'
+import { Container, SectionHeading, PageHero, ArrowIcon, HERO_IMAGES } from '@/components/ui'
 import { DiagonalLines } from '@/components/IndustrialArt'
 import { PRODUCTS, productName } from '@/data/products'
 import { CHEMICALS_COUNT } from '@/data/chemicals'
@@ -37,6 +37,7 @@ export default async function ProductsPage({ params }: Props) {
         title={t('nav_products', locale)}
         sub={`${PRODUCTS.length} ${t('products_hero_sub', locale)}`}
         crumb={[{ label: t('nav_products', locale) }]}
+        image={HERO_IMAGES.rig}
       />
 
       <section className="bg-white py-20 sm:py-28">

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { Container, PageHero } from '@/components/ui'
+import { Container, PageHero, HERO_IMAGES } from '@/components/ui'
 import { BROCHURE_PDF, PHONES, EMAIL, waMsg } from '@/lib/site'
 import { isLocale, t, type Locale } from '@/lib/i18n'
 
@@ -28,6 +28,7 @@ export default async function BrochurePage({ params }: Props) {
         title={t('brochure_full', locale)}
         sub={t('brochure_sub', locale)}
         crumb={[{ label: t('brochure_title', locale) }]}
+        image={HERO_IMAGES.rig}
       />
 
       <section className="bg-white py-14 sm:py-20">
