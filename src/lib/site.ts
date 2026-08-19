@@ -34,7 +34,7 @@ export const WHATSAPP = { display: '01280226210', number: '201280226210' } as co
 export const WHATSAPP_URL = `https://wa.me/${WHATSAPP.number}`
 
 /** البريد الإلكتروني */
-export const EMAIL = 'ismail.imacps@gmail.com'
+export const EMAIL = 'info@imac-eg.com'
 
 /** العنوان */
 export const ADDRESS = {
@@ -51,6 +51,12 @@ export const MAP_EMBED_URL = `https://maps.google.com/maps?q=${ADDRESS.mapQuery}
 
 /** مسار ملف البروشور */
 export const BROCHURE_PDF = '/imac-brochure.pdf'
+
+/** الجهة المطوّرة للموقع */
+export const DEVELOPER = {
+  name: 'Zero-Nine',
+  url: 'https://www.zero--nine.online/',
+} as const
 
 /** روابط القائمة الرئيسية — المسار بدون بادئة اللغة */
 export const NAV: { path: string; key: TKey }[] = [

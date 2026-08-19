@@ -10,6 +10,7 @@ import {
   WHATSAPP,
   ADDRESS,
   MAP_URL,
+  DEVELOPER,
   waMsg,
   whatsappLink,
 } from '@/lib/site'
@@ -177,11 +178,23 @@ export default function Footer({ locale }: { locale: Locale }) {
       </div>
 
       <div className="relative border-t border-steel-900">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-5 py-6 text-[12.5px] sm:flex-row sm:px-8">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-5 py-6 text-center text-[12.5px] sm:flex-row sm:text-start sm:px-8">
           <p>
             © {year} {tx(SITE.name, locale)}. {t('footer_rights', locale)}
           </p>
-          <p className="text-steel-600">{SITE.nameEn}</p>
+
+          {/* تم التطوير بواسطة */}
+          <p className="flex items-center gap-1.5 text-steel-500">
+            {t('footer_dev_by', locale)}
+            <a
+              href={DEVELOPER.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-extrabold text-brand-400 underline-offset-4 transition hover:text-brand-300 hover:underline"
+            >
+              {DEVELOPER.name}
+            </a>
+          </p>
         </div>
       </div>
     </footer>

@@ -364,6 +364,7 @@ export const T = {
   footer_contact: { ar: 'بيانات التواصل', en: 'Contact Details' },
   footer_mail_us: { ar: 'راسلنا بالبريد', en: 'Email Us' },
   footer_rights: { ar: 'جميع الحقوق محفوظة.', en: 'All rights reserved.' },
+  footer_dev_by: { ar: 'تم التطوير بواسطة', en: 'Developed by' },
 
   /* --- 404 --- */
   nf_title: { ar: 'الصفحة اللي بتدوّر عليها مش موجودة', en: 'The page you are looking for was not found' },
